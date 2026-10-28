@@ -54,19 +54,45 @@
       </section>
 
       <section>
-        <h2>Estruturas para Estudo</h2>
-        <p>Acesse os módulos abaixo para explorar detalhadamente cada segmento histológico do néfron:</p>
+        <h2>Módulos de Estudo Histológico</h2>
+        <p>Acesse as seções abaixo para explorar detalhadamente cada segmento funcional do néfron e testar seus conhecimentos:</p>
         
-        <ul class="modules-list">
-          <li><a href="./corpusculo-renal/">Corpúsculo Renal (Glomérulo e Cápsula de Bowman)</a></li>
-          <li><a href="./tubulo-proximal/">Túbulo Contorcido Proximal (TCP)</a></li>
+        <ul class="options-list">
+          <li class="option-item">
+            <a href="./corpusculo-renal/" class="option-btn" style="display: block; text-decoration: none;">
+              <strong>1. Corpúsculo Renal</strong> (Glomérulo e Cápsula de Bowman)
+            </a>
+          </li>
+          <li class="option-item">
+            <a href="./tubulo-proximal/" class="option-btn" style="display: block; text-decoration: none;">
+              <strong>2. Túbulo Contorcido Proximal</strong> (TCP)
+            </a>
+          </li>
+          <li class="option-item">
+            <a href="./alca-de-henle/" class="option-btn" style="display: block; text-decoration: none;">
+              <strong>3. Alça de Henle</strong> (Ramos Fino e Espesso)
+            </a>
+          </li>
+          <li class="option-item">
+            <a href="./tubulo-distal/" class="option-btn" style="display: block; text-decoration: none;">
+              <strong>4. Túbulo Contorcido Distal</strong> (TCD)
+            </a>
+          </li>
+          <li class="option-item">
+            <a href="./duto-coletor/" class="option-btn" style="display: block; text-decoration: none;">
+              <strong>5. Duto Coletor</strong>
+            </a>
+          </li>
+          <li class="option-item">
+            <a href="./quiz/" class="option-btn" style="display: block; text-decoration: none; border-color: #0284c7;">
+              <strong>6. Quiz Interativo de Fixação</strong>
+            </a>
+          </li>
         </ul>
       </section>
     </main>
 
-    <footer class="nav-footer">
-      <p>Projeto Educacional de Histologia Renal</p>
-    </footer>
+
   </div>
 
   <script>
@@ -86,7 +112,32 @@
 
     const ttsBtn = document.getElementById('tts-btn');
     const readableContent = document.getElementById('readable-content');
-    const synth = window.speechSynthesis;
+    let currentUtterances = [];
+    let ptVoice = null;
+
+    function loadVoices() {
+      if (!('speechSynthesis' in window)) return;
+      const voices = window.speechSynthesis.getVoices();
+      ptVoice = voices.find(v => v.lang === 'pt-BR') || 
+                voices.find(v => v.lang.startsWith('pt')) || 
+                null;
+    }
+
+    if ('speechSynthesis' in window) {
+      loadVoices();
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
+    function stopSpeech() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      currentUtterances = [];
+      if (ttsBtn) {
+        ttsBtn.textContent = 'Ouvir Página';
+        ttsBtn.classList.remove('speaking');
+      }
+    }
 
     function getCleanTextForSpeech(element) {
       const clone = element.cloneNode(true);
@@ -107,22 +158,30 @@
         math.parentNode.replaceChild(textNode, math);
       });
 
-      return clone.innerText;
+      return clone.innerText.replace(/\s+/g, ' ').trim();
     }
 
     ttsBtn.addEventListener('click', () => {
-      if (synth.speaking) {
-        synth.cancel();
-        ttsBtn.textContent = 'Ouvir Página';
-        ttsBtn.classList.remove('speaking');
+      if (!('speechSynthesis' in window)) {
+        alert("Seu navegador não suporta leitura por voz.");
         return;
       }
 
-      const textToRead = getCleanTextForSpeech(readableContent);
+      const synth = window.speechSynthesis;
 
+      if (synth.speaking || synth.pending || ttsBtn.classList.contains('speaking')) {
+        stopSpeech();
+        return;
+      }
+
+      synth.cancel();
+      synth.resume();
+
+      const textToRead = getCleanTextForSpeech(readableContent);
       const utterance = new SpeechSynthesisUtterance(textToRead);
       utterance.lang = 'pt-BR';
       utterance.rate = 1.0;
+      if (ptVoice) utterance.voice = ptVoice;
 
       utterance.onstart = () => {
         ttsBtn.textContent = 'Parar Leitura';
@@ -130,24 +189,18 @@
       };
 
       utterance.onend = () => {
-        ttsBtn.textContent = 'Ouvir Página';
-        ttsBtn.classList.remove('speaking');
+        stopSpeech();
       };
 
       utterance.onerror = () => {
-        synth.cancel();
-        ttsBtn.textContent = 'Ouvir Página';
-        ttsBtn.classList.remove('speaking');
+        stopSpeech();
       };
 
+      currentUtterances = [utterance];
       synth.speak(utterance);
     });
 
-    window.addEventListener('beforeunload', () => {
-      if (synth.speaking) {
-        synth.cancel();
-      }
-    });
+    window.addEventListener('beforeunload', stopSpeech);
   </script>
 </body>
 </html>

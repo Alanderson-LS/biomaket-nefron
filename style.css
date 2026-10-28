@@ -212,3 +212,184 @@
     color: #ffffff;
     border-color: var(--primary-color);
     }
+
+    .quiz-card {
+        background-color: var(--card-bg, #ffffff);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-top: 1rem;
+      }
+      
+      .options-list {
+        list-style: none;
+        padding: 0;
+        margin: 1.5rem 0;
+      }
+      
+      .option-item {
+        margin-bottom: 0.75rem;
+      }
+      
+      .option-btn {
+        width: 100%;
+        text-align: left;
+        padding: 0.85rem 1rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        background-color: transparent;
+        color: var(--text-color, #334155);
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      
+      .option-btn:hover {
+        border-color: #0284c7;
+        background-color: rgba(2, 132, 199, 0.05);
+      }
+      
+      .option-btn.selected {
+        border-color: #0284c7;
+        background-color: rgba(2, 132, 199, 0.15);
+        font-weight: 600;
+      }
+      
+      .quiz-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1.5rem;
+      }
+      
+      .action-btn {
+        background-color: #0284c7;
+        color: #ffffff;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+      
+      .action-btn:hover {
+        background-color: #0369a1;
+      }
+      
+      .action-btn:disabled {
+        background-color: #94a3b8;
+        cursor: not-allowed;
+      }
+      
+      .quiz-progress {
+        font-size: 0.9rem;
+        color: #64748b;
+        font-weight: 600;
+      }
+      
+      .results-card {
+        text-align: center;
+        padding: 2rem 1rem;
+      }
+      
+      .score-badge {
+        font-size: 3rem;
+        font-weight: 800;
+        color: #0284c7;
+        margin: 1rem 0;
+      }
+      
+      body.dark-mode .option-btn {
+        border-color: #334155;
+      }
+      
+      body.dark-mode .option-btn:hover {
+        border-color: #38bdf8;
+        background-color: rgba(56, 189, 248, 0.1);
+      }
+      
+      body.dark-mode .quiz-progress {
+        color: #94a3b8;
+      }
+
+.review-container {
+    margin-top: 2rem;
+    text-align: left;
+  }
+  
+  .review-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+    color: var(--text-color, #334155);
+  }
+  
+  .review-item {
+    background-color: var(--card-bg, #ffffff);
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  .review-question-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--text-color, #334155);
+  }
+  
+  .review-options-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .review-option {
+    padding: 0.6rem 0.85rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    border: 1px solid #e2e8f0;
+    font-size: 0.95rem;
+    color: var(--text-color, #334155);
+  }
+  
+  .review-option.correct {
+    background-color: #dcfce7;
+    border-color: #22c55e;
+    color: #14532d;
+    font-weight: 600;
+  }
+  
+  .review-option.incorrect {
+    background-color: #fee2e2;
+    border-color: #ef4444;
+    color: #7f1d1d;
+    font-weight: 600;
+  }
+  
+  body.dark-mode .review-title {
+    border-bottom-color: #334155;
+  }
+  
+  body.dark-mode .review-item {
+    border-color: #334155;
+  }
+  
+  body.dark-mode .review-option {
+    border-color: #334155;
+  }
+  
+  body.dark-mode .review-option.correct {
+    background-color: rgba(34, 197, 94, 0.2);
+    border-color: #22c55e;
+    color: #86efac;
+  }
+  
+  body.dark-mode .review-option.incorrect {
+    background-color: rgba(239, 68, 68, 0.2);
+    border-color: #ef4444;
+    color: #fca5a5;
+  }

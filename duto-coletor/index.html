@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Duto Coletor - Histologia do Néfron</title>
+  
+  <link rel="stylesheet" href="../style.css">
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    
+    <div class="accessibility-bar">
+      <button id="tts-btn" class="accessibility-btn" aria-label="Ouvir conteúdo da página">
+        Ouvir Página
+      </button>
+      <button id="theme-btn" class="accessibility-btn" aria-label="Alternar tema escuro">
+        Modo Escuro
+      </button>
+    </div>
+
+    <header>
+      <span class="badge">Anatomia & Histologia Renal</span>
+      <h1>Duto Coletor</h1>
+    </header>
+
+    <main id="readable-content">
+      <section>
+        <h2>O que é?</h2>
+        <p>O <strong>Duto Coletor</strong> é uma estrutura tubular responsável por receber o fluido tubular de múltiplos néfrons. Ele se estende do córtex renal até a papila renal na medula, sendo o trecho final onde ocorre a determinação da concentração e volume definitivos da urina.</p>
+      </section>
+
+      <section>
+        <h2>Histologia e Tipos Celulares</h2>
+        <p>Histologicamente, o duto coletor varia de epitélio cúbico simples nas porções corticais a cilíndrico simples nas porções medulares profundas. É composto por dois tipos celulares principais:</p>
+        <ul>
+          <li><strong>Células Principais:</strong> Predominantes no duto. Possuem receptores para o Hormônio Antidietético (ADH/Vasopressina) e Aldosterona. Responsáveis pela reabsorção de água e sódio ($Na^+$) e secreção de potássio ($K^+$).</li>
+          <li><strong>Células Intercaladas (Tipo A e B):</strong> Menos numerosas. Participam no controle do equilíbrio ácido-base. As células do Tipo A secretam prótons ($H^+$) e reabsorvem bicarbonato ($HCO_3^-$); as do Tipo B realizam o processo inverso.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Regulação Hormonal e Concentração da Urina</h2>
+        <p>A permeabilidade do duto coletor é estritamente regulada pela homeostase corporal:</p>
+        <ul>
+          <li><strong>Ação do ADH (Vasopressina):</strong> Na presença de ADH, vesículas contendo canais de água <em>Aquaporina-2</em> são inseridas na membrana apical das células principais, promovendo reabsorção intensa de água e formação de urina concentrada.</li>
+          <li><strong>Ausência de ADH:</strong> A parede permanece impermeável à água, resultando na eliminação de uma urina diluída.</li>
+          <li><strong>Ação da Aldosterona:</strong> Aumenta a expressão de canais epiteliais de sódio (ENaC) e da bomba $Na^+/K^+$-ATPase, maximizando a retenção de sódio e água.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="nav-footer">
+      <a href="../">← Voltar para a Visão Geral do Néfron</a>
+    </footer>
+  </div>
+
+  <script>
+    const themeBtn = document.getElementById('theme-btn');
+    
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      themeBtn.textContent = 'Modo Claro';
+    }
+
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      themeBtn.textContent = isDark ? 'Modo Claro' : 'Modo Escuro';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    const ttsBtn = document.getElementById('tts-btn');
+    const readableContent = document.getElementById('readable-content');
+    const synth = window.speechSynthesis;
+
+    function getCleanTextForSpeech(element) {
+      const clone = element.cloneNode(true);
+
+      const mathElements = clone.querySelectorAll('mjx-container, .MathJax');
+      mathElements.forEach(math => {
+        let text = math.getAttribute('aria-label') || math.innerText || '';
+        
+        text = text
+          .replace(/Na\^\+/g, ' Sódio ')
+          .replace(/K\^\+/g, ' Potássio ')
+          .replace(/H\^\+/g, ' Hidrogênio ')
+          .replace(/HCO_3\^-/g, ' Bicarbonato ')
+          .replace(/\$/g, '');
+
+        const textNode = document.createTextNode(text);
+        math.parentNode.replaceChild(textNode, math);
+      });
+
+      return clone.innerText;
+    }
+
+    ttsBtn.addEventListener('click', () => {
+      if (synth.speaking) {
+        synth.cancel();
+        ttsBtn.textContent = 'Ouvir Página';
+        ttsBtn.classList.remove('speaking');
+        return;
+      }
+
+      const textToRead = getCleanTextForSpeech(readableContent);
+
+      const utterance = new SpeechSynthesisUtterance(textToRead);
+      utterance.lang = 'pt-BR';
+      utterance.rate = 1.0;
+
+      utterance.onstart = () => {
+        ttsBtn.textContent = 'Parar Leitura';
+        ttsBtn.classList.add('speaking');
+      };
+
+      utterance.onend = () => {
+        ttsBtn.textContent = 'Ouvir Página';
+        ttsBtn.classList.remove('speaking');
+      };
+
+      utterance.onerror = () => {
+        synth.cancel();
+        ttsBtn.textContent = 'Ouvir Página';
+        ttsBtn.classList.remove('speaking');
+      };
+
+      synth.speak(utterance);
+    });
+
+    window.addEventListener('beforeunload', () => {
+      if (synth.speaking) {
+        synth.cancel();
+      }
+    });
+  </script>
+</body>
+</html>

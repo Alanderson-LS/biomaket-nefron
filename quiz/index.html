@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz do Néfron - Sistema Urinário</title>
+  
+  <link rel="stylesheet" href="../style.css">
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    
+    <div class="accessibility-bar">
+      <button id="tts-btn" class="accessibility-btn" aria-label="Ouvir conteúdo da pergunta">
+        Ouvir Pergunta
+      </button>
+      <button id="theme-btn" class="accessibility-btn" aria-label="Alternar tema escuro">
+        Modo Escuro
+      </button>
+    </div>
+
+    <header>
+      <span class="badge">Avaliação de Conhecimento</span>
+      <h1>Quiz sobre o Néfron</h1>
+    </header>
+
+    <main id="readable-content">
+      <div id="quiz-container" class="quiz-card">
+        <div class="quiz-progress" id="quiz-progress">Pergunta 1 de 5</div>
+        <h2 id="question-text" style="margin-top: 0.5rem;">Carregando pergunta...</h2>
+        
+        <ul class="options-list" id="options-list"></ul>
+
+        <div class="quiz-actions">
+          <span></span>
+          <button id="next-btn" class="action-btn" disabled>Próxima</button>
+        </div>
+      </div>
+
+      <div id="result-container" class="quiz-card results-card" style="display: none;">
+        <h2>Quiz Concluído!</h2>
+        <p>Sua pontuação final foi:</p>
+        <div class="score-badge" id="score-text">0 / 5</div>
+        <p id="score-message"></p>
+        
+        <div id="review-container" class="review-container"></div>
+
+        <button id="restart-btn" class="action-btn" style="margin-top: 1.5rem;">Tentar Novamente</button>
+      </div>
+    </main>
+
+    <footer class="nav-footer">
+      <a href="../">← Voltar para a Visão Geral do Néfron</a>
+    </footer>
+  </div>
+
+  <script>
+    /* --- 1. MODO ESCURO --- */
+    const themeBtn = document.getElementById('theme-btn');
+    
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      themeBtn.textContent = 'Modo Claro';
+    }
+
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      themeBtn.textContent = isDark ? 'Modo Claro' : 'Modo Escuro';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    const questionBank = [
+      {
+        question: "Qual estrutura do corpúsculo renal é composta por podócitos que formam as fendas de filtração?",
+        options: ["Folheto parietal da Cápsula de Bowman", "Folheto visceral da Cápsula de Bowman", "Endocélio fenestrado capilar", "Arteríola eferente"],
+        correct: 1
+      },
+      {
+        question: "Qual é a principal adaptação histológica do Túbulo Contorcido Proximal para realizar reabsorção massiva?",
+        options: ["Células pavimentosas sem organelas", "Presença de borda em escova (microvilosidades)", "Cílios móveis na superfície basal", "Camada espessa de queratina"],
+        correct: 1
+      },
+      {
+        question: "Qual parte da Alça de Henle é altamente permeável à água através de aquaporinas-1?",
+        options: ["Ramo ascendente espesso", "Ramo ascendente fino", "Ramo descendente fino", "Mácula densa"],
+        correct: 2
+      },
+      {
+        question: "O co-transportador $Na^+/K^+/2Cl^-$ é característico de qual segmento do néfron?",
+        options: ["Túbulo Contorcido Proximal", "Ramo ascendente espesso da Alça de Henle", "Duto Coletor", "Glomérulo"],
+        correct: 1
+      },
+      {
+        question: "A mácula densa está localizada no início de qual segmento do néfron?",
+        options: ["Túbulo Contorcido Distal", "Túbulo Contorcido Proximal", "Cápsula de Bowman", "Alça de Henle descendente"],
+        correct: 0
+      },
+      {
+        question: "O Hormônio Antidiurético (ADH) atua no Duto Coletor promovendo a inserção de qual canal?",
+        options: ["Aquaporina-2", "Bomba $Na^+/K^+$-ATPase", "Canais ENaC", "Co-transportador $Na^+/Cl^-$"],
+        correct: 0
+      },
+      {
+        question: "Qual das seguintes substâncias é 100% reabsorvida no Túbulo Contorcido Proximal sob condições fisiológicas normais?",
+        options: ["Ureia", "Glicose", "Creatinina", "Sódio"],
+        correct: 1
+      },
+      {
+        question: "As células intercaladas do Tipo A no Duto Coletor têm como função principal:",
+        options: ["Secretar prótons ($H^+$) e reabsorver bicarbonato ($HCO_3^-$)", "Reabsorver 100% da água filtrada", "Sintetizar glicose a partir de aminoácidos", "Secretar potássio em resposta à aldosterona"],
+        correct: 0
+      },
+      {
+        question: "A barreira de filtração glomerular impede a passagem de proteínas plasmáticas devido principalmente a:",
+        options: ["Pressão hidrostática negativa", "Cargas negativas na membrana basal e fendas de filtração", "Ação motora das mitocôndrias", "Tamanho excessivo das fenestras capilares"],
+        correct: 1
+      },
+      {
+        question: "O hormônio paratireóide (PTH) estimula a reabsorção ativa de qual íon no Túbulo Contorcido Distal?",
+        options: ["Sódio ($Na^+$)", "Potássio ($K^+$)", "Cálcio ($Ca^{2+}$)", "Cloreto ($Cl^-$)"],
+        correct: 2
+      },
+      {
+        question: "Qual hormônio atua no Duto Coletor aumentando a retenção de sódio e a excreção de potássio?",
+        options: ["Eritropoietina", "Aldosterona", "Renina", "Insulina"],
+        correct: 1
+      },
+      {
+        question: "O fluido que sai do espaço capsular da Cápsula de Bowman segue diretamente para:",
+        options: ["Alça de Henle", "Túbulo Contorcido Proximal", "Túbulo Contorcido Distal", "Duto Coletor"],
+        correct: 1
+      }
+    ];
+
+    let currentQuestions = [];
+    let userAnswers = [];
+    let currentQuestionIndex = 0;
+    let selectedOption = null;
+    let score = 0;
+
+    const labels = ["A", "B", "C", "D"];
+
+    const quizContainer = document.getElementById('quiz-container');
+    const resultContainer = document.getElementById('result-container');
+    const questionText = document.getElementById('question-text');
+    const optionsList = document.getElementById('options-list');
+    const progressText = document.getElementById('quiz-progress');
+    const nextBtn = document.getElementById('next-btn');
+    const scoreText = document.getElementById('score-text');
+    const scoreMessage = document.getElementById('score-message');
+    const reviewContainer = document.getElementById('review-container');
+    const restartBtn = document.getElementById('restart-btn');
+
+    function getRandomQuestions(bank, count) {
+      const shuffled = [...bank].sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, count);
+    }
+
+    function initQuiz() {
+      stopSpeech();
+      currentQuestions = getRandomQuestions(questionBank, 5);
+      userAnswers = [];
+      currentQuestionIndex = 0;
+      score = 0;
+      selectedOption = null;
+
+      quizContainer.style.display = 'block';
+      resultContainer.style.display = 'none';
+
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      stopSpeech();
+      selectedOption = null;
+      nextBtn.disabled = true;
+
+      const q = currentQuestions[currentQuestionIndex];
+      progressText.textContent = `Pergunta ${currentQuestionIndex + 1} de 5`;
+      questionText.innerHTML = q.question;
+      optionsList.innerHTML = '';
+
+      q.options.forEach((opt, idx) => {
+        const li = document.createElement('li');
+        li.className = 'option-item';
+
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = `<strong>${labels[idx]})</strong> ${opt}`;
+        btn.addEventListener('click', () => selectOption(idx, btn));
+
+        li.appendChild(btn);
+        optionsList.appendChild(li);
+      });
+
+      if (window.MathJax) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    function selectOption(index, btn) {
+      selectedOption = index;
+      const allBtns = optionsList.querySelectorAll('.option-btn');
+      allBtns.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      nextBtn.disabled = false;
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (selectedOption === null) return;
+
+      userAnswers.push(selectedOption);
+
+      if (selectedOption === currentQuestions[currentQuestionIndex].correct) {
+        score++;
+      }
+
+      currentQuestionIndex++;
+
+      if (currentQuestionIndex < 5) {
+        loadQuestion();
+      } else {
+        showResults();
+      }
+    });
+
+    function showResults() {
+      stopSpeech();
+      quizContainer.style.display = 'none';
+      resultContainer.style.display = 'block';
+
+      scoreText.textContent = `${score} / 5`;
+
+      if (score === 5) {
+        scoreMessage.textContent = "Excelente! Você demonstrou domínio completo da histologia e fisiologia do néfron.";
+      } else if (score >= 3) {
+        scoreMessage.textContent = "Bom trabalho! Você tem um bom conhecimento sobre o funcionamento do néfron.";
+      } else {
+        scoreMessage.textContent = "Recomenda-se revisar os módulos histológicos para reforçar o aprendizado.";
+      }
+
+      renderReview();
+    }
+
+    function renderReview() {
+      reviewContainer.innerHTML = '<h3 class="review-title">Revisão das Respostas</h3>';
+
+      currentQuestions.forEach((q, qIdx) => {
+        const userChoice = userAnswers[qIdx];
+        const correctChoice = q.correct;
+
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'review-item';
+
+        const title = document.createElement('div');
+        title.className = 'review-question-title';
+        title.innerHTML = `Pergunta ${qIdx + 1}: ${q.question}`;
+        itemDiv.appendChild(title);
+
+        const optsList = document.createElement('ul');
+        optsList.className = 'review-options-list';
+
+        q.options.forEach((opt, optIdx) => {
+          const li = document.createElement('li');
+          li.className = 'review-option';
+
+          let noteText = '';
+
+          if (optIdx === userChoice && userChoice === correctChoice) {
+            li.classList.add('correct');
+            noteText = ' (Sua resposta - Correta)';
+          } else if (optIdx === userChoice && userChoice !== correctChoice) {
+            li.classList.add('incorrect');
+            noteText = ' (Sua resposta)';
+          } else if (optIdx === correctChoice && userChoice !== correctChoice) {
+            li.classList.add('correct');
+            noteText = ' (Resposta correta)';
+          }
+
+          li.innerHTML = `<strong>${labels[optIdx]})</strong> ${opt}${noteText}`;
+          optsList.appendChild(li);
+        });
+
+        itemDiv.appendChild(optsList);
+        reviewContainer.appendChild(itemDiv);
+      });
+
+      if (window.MathJax) {
+        MathJax.typesetPromise();
+      }
+    }
+
+    restartBtn.addEventListener('click', initQuiz);
+
+    const ttsBtn = document.getElementById('tts-btn');
+    let currentUtterances = [];
+    let ptVoice = null;
+
+    function loadVoices() {
+      if (!('speechSynthesis' in window)) return;
+      const voices = window.speechSynthesis.getVoices();
+      ptVoice = voices.find(v => v.lang === 'pt-BR') || 
+                voices.find(v => v.lang.startsWith('pt')) || 
+                null;
+    }
+
+    if ('speechSynthesis' in window) {
+      loadVoices();
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+    }
+
+    function stopSpeech() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      currentUtterances = [];
+      if (ttsBtn) {
+        ttsBtn.textContent = 'Ouvir Pergunta';
+        ttsBtn.classList.remove('speaking');
+      }
+    }
+
+    function formatTextForSpeech(text) {
+      if (!text) return '';
+      return text
+        .replace(/<[^>]*>/g, '')
+        .replace(/\(\$Na\^\+\$\)/g, '')
+        .replace(/\(\$K\^\+\$\)/g, '')
+        .replace(/\(\$Ca\^\{2\+\}\$\)/g, '')
+        .replace(/\(\$Cl\^-\$\)/g, '')
+        .replace(/\(\$H\^\+\$\)/g, '')
+        .replace(/\(\$HCO_3\^-\$\)/g, '')
+        .replace(/Na\^\+\/K\^\+\/2Cl\^-/g, 'Sódio, Potássio e Dois Cloretos')
+        .replace(/Na\^\+\/Cl\^-/g, 'Sódio e Cloreto')
+        .replace(/Na\^\+\/K\^-/g, 'Sódio e Potássio')
+        .replace(/Na\^\+/g, 'Sódio')
+        .replace(/K\^\+/g, 'Potássio')
+        .replace(/2Cl\^-/g, 'dois Cloretos')
+        .replace(/Cl\^-/g, 'Cloreto')
+        .replace(/H\^\+/g, 'Hidrogênio')
+        .replace(/HCO_3\^-/g, 'Bicarbonato')
+        .replace(/Ca\^\{2\+\}/g, 'Cálcio')
+        .replace(/\$/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    ttsBtn.addEventListener('click', () => {
+      if (!('speechSynthesis' in window)) {
+        alert("Seu navegador não suporta leitura por voz.");
+        return;
+      }
+
+      const synth = window.speechSynthesis;
+
+      if (synth.speaking || synth.pending || ttsBtn.classList.contains('speaking')) {
+        stopSpeech();
+        return;
+      }
+
+      synth.cancel();
+      synth.resume();
+
+      const chunks = [];
+
+      if (resultContainer.style.display !== 'none') {
+        chunks.push(`Quiz concluído. Sua pontuação foi ${score} de 5. ${scoreMessage.textContent}`);
+      } else {
+        const q = currentQuestions[currentQuestionIndex];
+        chunks.push(`Pergunta ${currentQuestionIndex + 1} de 5. ${formatTextForSpeech(q.question)}`);
+        
+        q.options.forEach((opt, idx) => {
+          chunks.push(`Opção ${labels[idx]}: ${formatTextForSpeech(opt)}`);
+        });
+      }
+
+      currentUtterances = [];
+
+      chunks.forEach((chunkText, index) => {
+        const utterance = new SpeechSynthesisUtterance(chunkText);
+        utterance.lang = 'pt-BR';
+        utterance.rate = 1.0;
+        if (ptVoice) utterance.voice = ptVoice;
+
+        if (index === 0) {
+          utterance.onstart = () => {
+            ttsBtn.textContent = 'Parar Leitura';
+            ttsBtn.classList.add('speaking');
+          };
+        }
+
+        if (index === chunks.length - 1) {
+          utterance.onend = () => {
+            stopSpeech();
+          };
+          utterance.onerror = () => {
+            stopSpeech();
+          };
+        }
+
+        currentUtterances.push(utterance);
+        synth.speak(utterance);
+      });
+    });
+
+    window.addEventListener('beforeunload', stopSpeech);
+
+    initQuiz();
+  </script>
+</body>
+</html>

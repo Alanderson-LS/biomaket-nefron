@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alça de Henle - Histologia do Néfron</title>
+  
+  <link rel="stylesheet" href="../style.css">
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    
+    <div class="accessibility-bar">
+      <button id="tts-btn" class="accessibility-btn" aria-label="Ouvir conteúdo da página">
+        Ouvir Página
+      </button>
+      <button id="theme-btn" class="accessibility-btn" aria-label="Alternar tema escuro">
+        Modo Escuro
+      </button>
+    </div>
+
+    <header>
+      <span class="badge">Anatomia & Histologia Renal</span>
+      <h1>Alça de Henle</h1>
+    </header>
+
+    <main id="readable-content">
+      <section>
+        <h2>O que é?</h2>
+        <p>A <strong>Alça de Henle</strong> é o segmento do néfron em forma de U que mergulha na medula renal. Ela conecta o Túbulo Contorcido Proximal ao Túbulo Contorcido Distal e desempenha um papel fundamental na concentração da urina.</p>
+      </section>
+
+      <section>
+        <h2>Divisão Anatômica e Histológica</h2>
+        <p>A alça é dividida em dois ramos com características histológicas e funcionais distintas:</p>
+        <ul>
+          <li><strong>Ramo Descendente Fino:</strong> Composto por epitélio simples pavimentoso. É altamente permeável à água através de canais de aquaporina-1, mas quase impermeável aos solutos como sódio ($Na^+$) e uréia.</li>
+          <li><strong>Ramo Ascendente Fino:</strong> Apresenta epitélio pavimentoso simples, permeável a íons e impermeável à água.</li>
+          <li><strong>Ramo Ascendente Espesso:</strong> Revestido por epitélio cúbico simples. É totalmente impermeável à água e realiza o transporte ativo e massivo de eletrólitos para o interstício medular.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Mecanismo de Multiplicação por Contracorrente</h2>
+        <p>A função primária do ramo ascendente espesso é o transporte ativo de íons via co-transportador $Na^+/K^+/2Cl^-$. Esse processo cria um gradiente hiperosmótico na medula renal, permitindo a reabsorção passiva de água no ramo descendente e, posteriormente, no ducto coletor.</p>
+      </section>
+    </main>
+
+    <footer class="nav-footer">
+      <a href="../">← Voltar para a Visão Geral do Néfron</a>
+    </footer>
+  </div>
+
+  <script>
+    const themeBtn = document.getElementById('theme-btn');
+    
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      themeBtn.textContent = 'Modo Claro';
+    }
+
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      themeBtn.textContent = isDark ? 'Modo Claro' : 'Modo Escuro';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    const ttsBtn = document.getElementById('tts-btn');
+    const readableContent = document.getElementById('readable-content');
+    const synth = window.speechSynthesis;
+
+    function getCleanTextForSpeech(element) {
+      const clone = element.cloneNode(true);
+
+      const mathElements = clone.querySelectorAll('mjx-container, .MathJax');
+      mathElements.forEach(math => {
+        let text = math.getAttribute('aria-label') || math.innerText || '';
+        
+        text = text
+          .replace(/Na\^\+/g, ' Sódio ')
+          .replace(/K\^\+/g, ' Potássio ')
+          .replace(/2Cl\^-/g, ' dois Cloretos ')
+          .replace(/Cl\^-/g, ' Cloreto ')
+          .replace(/\$/g, '');
+
+        const textNode = document.createTextNode(text);
+        math.parentNode.replaceChild(textNode, math);
+      });
+
+      return clone.innerText;
+    }
+
+    ttsBtn.addEventListener('click', () => {
+      if (synth.speaking) {
+        synth.cancel();
+        ttsBtn.textContent = 'Ouvir Página';
+        ttsBtn.classList.remove('speaking');
+        return;
+      }
+
+      const textToRead = getCleanTextForSpeech(readableContent);
+
+      const utterance = new SpeechSynthesisUtterance(textToRead);
+      utterance.lang = 'pt-BR';
+      utterance.rate = 1.0;
+
+      utterance.onstart = () => {
+        ttsBtn.textContent = 'Parar Leitura';
+        ttsBtn.classList.add('speaking');
+      };
+
+      utterance.onend = () => {
+        ttsBtn.textContent = 'Ouvir Página';
+        ttsBtn.classList.remove('speaking');
+      };
+
+      utterance.onerror = () => {
+        synth.cancel();
+        ttsBtn.textContent = 'Ouvir Página';
+        ttsBtn.classList.remove('speaking');
+      };
+
+      synth.speak(utterance);
+    });
+
+    window.addEventListener('beforeunload', () => {
+      if (synth.speaking) {
+        synth.cancel();
+      }
+    });
+  </script>
+</body>
+</html>

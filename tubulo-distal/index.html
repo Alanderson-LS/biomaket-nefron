@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Túbulo Contorcido Distal - Histologia do Néfron</title>
+  
+  <link rel="stylesheet" href="../style.css">
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    
+    <div class="accessibility-bar">
+      <button id="tts-btn" class="accessibility-btn" aria-label="Ouvir conteúdo da página">
+        Ouvir Página
+      </button>
+      <button id="theme-btn" class="accessibility-btn" aria-label="Alternar tema escuro">
+        Modo Escuro
+      </button>
+    </div>
+
+    <header>
+      <span class="badge">Anatomia & Histologia Renal</span>
+      <h1>Túbulo Contorcido Distal (TCD)</h1>
+    </header>
+
+    <main id="readable-content">
+      <section>
+        <h2>O que é?</h2>
+        <p>O <strong>Túbulo Contorcido Distal</strong> é o segmento do néfron localizado no córtex renal, contínuo ao ramo ascendente espesso da Alça de Henle e antecedente ao ducto coletor. Ele atua no ajuste fino da reabsorção de eletrólitos e no equilíbrio ácido-base.</p>
+      </section>
+
+      <section>
+        <h2>Estrutura e Características Histológicas</h2>
+        <p>O TCD apresenta características celulares distintas que o diferenciam do Túbulo Contorcido Proximal:</p>
+        <ul>
+          <li><strong>Epitélio Cúbico Simples:</strong> Suas células não possuem borda em escova bem desenvolvida, tornando o lúmen do túbulo mais amplo e limpo.</li>
+          <li><strong>Massa Mitocondrial Basal:</strong> Abundantes mitocôndrias na região basal para suprir a energia necessária ao transporte ativo de íons.</li>
+          <li><strong>MÁCULA DENSA:</strong> Região especializada de células estreitas e densas no início do TCD, em contato direto com a arteríola aferente, integrando o <em>Aparelho Juxtaglomerular</em> para controle da taxa de filtração renal.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Função Principal: Ajuste Fino de Solutos</h2>
+        <p>O TCD realiza o transporte seletivo de íons sob regulação hormonal:</p>
+        <ul>
+          <li><strong>Reabsorção de $Na^+$ e $Cl^-$:</strong> Ocorre na porção inicial via co-transportador $Na^+/Cl^-$.</li>
+          <li><strong>Regulação pelo Hormônio Paratireóide (PTH):</strong> Estimula a reabsorção ativa de Cálcio ($Ca^{2+}$).</li>
+          <li><strong>Ação da Aldosterina:</strong> Na porção final, promove a reabsorção de $Na^+$ e a secreção de Potássio ($K^+$) e Hidrogênio ($H^+$).</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="nav-footer">
+      <a href="../">← Voltar para a Visão Geral do Néfron</a>
+    </footer>
+  </div>
+
+  <script>
+    const themeBtn = document.getElementById('theme-btn');
+    
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      themeBtn.textContent = 'Modo Claro';
+    }
+
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      themeBtn.textContent = isDark ? 'Modo Claro' : 'Modo Escuro';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    const ttsBtn = document.getElementById('tts-btn');
+    const readableContent = document.getElementById('readable-content');
+    const synth = window.speechSynthesis;
+
+    function getCleanTextForSpeech(element) {
+      const clone = element.cloneNode(true);
+
+      const mathElements = clone.querySelectorAll('mjx-container, .MathJax');
+      mathElements.forEach(math => {
+        let text = math.getAttribute('aria-label') || math.innerText || '';
+        
+        text = text
+          .replace(/Na\^\+/g, ' Sódio ')
+          .replace(/Cl\^-/g, ' Cloreto ')
+          .replace(/Ca\^\{2\+\}/g, ' Cálcio ')
+          .replace(/K\^\+/g, ' Potássio ')
+          .replace(/H\^\+/g, ' Hidrogênio ')
+          .replace(/\$/g, '');
+
+        const textNode = document.createTextNode(text);
+        math.parentNode.replaceChild(textNode, math);
+      });
+
+      return clone.innerText;
+    }
+
+    ttsBtn.addEventListener('click', () => {
+      if (synth.speaking) {
+        synth.cancel();
+        ttsBtn.textContent = 'Ouvir Página';
+        ttsBtn.classList.remove('speaking');
+        return;
+      }
+
+      const textToRead = getCleanTextForSpeech(readableContent);
+
+      const utterance = new SpeechSynthesisUtterance(textToRead);
+      utterance.lang = 'pt-BR';
+      utterance.rate = 1.0;
+
+      utterance.onstart = () => {
+        ttsBtn.textContent = 'Parar Leitura';
+        ttsBtn.classList.add('speaking');
+      };
+
+      utterance.onend = () => {
+        ttsBtn.textContent = 'Ouvir Página';
+        ttsBtn.classList.remove('speaking');
+      };
+
+      utterance.onerror = () => {
+        synth.cancel();
+        ttsBtn.textContent = 'Ouvir Página';
+        ttsBtn.classList.remove('speaking');
+      };
+
+      synth.speak(utterance);
+    });
+
+    window.addEventListener('beforeunload', () => {
+      if (synth.speaking) {
+        synth.cancel();
+      }
+    });
+  </script>
+</body>
+</html>
