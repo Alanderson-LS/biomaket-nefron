@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Corpúsculo Renal - Histologia do Néfron</title>
+  
+  <link rel="stylesheet" href="../style.css">
+
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    
+    <div class="accessibility-bar">
+      <button id="tts-btn" class="accessibility-btn" aria-label="Ouvir conteúdo da página">
+        Ouvir Página
+      </button>
+      <button id="theme-btn" class="accessibility-btn" aria-label="Alternar tema escuro">
+        Modo Escuro
+      </button>
+    </div>
+
+    <header>
+      <span class="badge">Anatomia & Histologia Renal</span>
+      <h1>Corpúsculo Renal (Glomérulo e Cápsula de Bowman)</h1>
+    </header>
+
+    <main id="readable-content">
+      <section>
+        <h2>O que é?</h2>
+        <p>O <strong>Corpúsculo Renal</strong> (ou Corpúsculo de Malpighi) é a unidade inicial de filtração do néfron, localizada no córtex renal. É constituído pelo <strong>glomérulo renal</strong> (um enovelado de capilares fenestrados) envolvido pela <strong>Cápsula de Bowman</strong>.</p>
+      </section>
+
+      <section>
+        <h2>Estrutura Histológica</h2>
+        <p>A Cápsula de Bowman possui dois folhetos principais que delimitam o espaço capsular:</p>
+        <ul>
+          <li><strong>Folheto Parietal:</strong> Camada externa formada por epitélio simples pavimentoso.</li>
+          <li><strong>Folheto Visceral:</strong> Camada interna em contato direto com os capilares, composta por células altamente especializadas chamadas <strong>podócitos</strong>. Os podócitos projetam prolongamentos (pedicelos) que formam as fendas de filtração.</li>
+          <li><strong>Pólo Vascular:</strong> Local por onde entra a arteríola aferente e sai a arteríola eferente.</li>
+          <li><strong>Pólo Urinário:</strong> Local onde o espaço capsular se continua com o Túbulo Contorcido Proximal.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Função Principal: Filtração Glomerular</h2>
+        <p>A principal função é a ultrafiltração do sangue sob pressão para formar o filtrado glomerular (urina primária). A barreira de filtração renal é composta por três camadas:</p>
+        <ul>
+          <li><strong>Endocélio Fenestrado do Capilar:</strong> Impede a passagem de elementos figurados do sangue (hemácias e leucócitos).</li>
+          <li><strong>Membrana Basal Glomerular:</strong> Lâmina basal espessa carregada negativamente, que repele proteínas plasmáticas como a albumina.</li>
+          <li><strong>Fendas de Filtração dos Podócitos:</strong> Barreira final que retém pequenas macromoléculas.</li>
+        </ul>
+        <p>A taxa de filtração glomerular normal é regulada pelo equilíbrio entre a pressão hidrostática dos capilares ($P_g$) e a pressão oncótica ($\pi_g$).</p>
+      </section>
+    </main>
+
+    <footer class="nav-footer">
+      <a href="../">← Voltar para a Visão Geral do Néfron</a>
+    </footer>
+  </div>
+
+  <script>
+    const themeBtn = document.getElementById('theme-btn');
+    
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark-mode');
+      themeBtn.textContent = 'Modo Claro';
+    }
+
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const isDark = document.body.classList.contains('dark-mode');
+      themeBtn.textContent = isDark ? 'Modo Claro' : 'Modo Escuro';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    const ttsBtn = document.getElementById('tts-btn');
+    const readableContent = document.getElementById('readable-content');
+    const synth = window.speechSynthesis;
+
+    function getCleanTextForSpeech(element) {
+      const clone = element.cloneNode(true);
+
+      const mathElements = clone.querySelectorAll('mjx-container, .MathJax');
+      mathElements.forEach(math => {
+        let text = math.getAttribute('aria-label') || math.innerText || '';
+        
+        text = text
+          .replace(/P_g/g, ' Pressão Hidrostática Glomerular ')
+          .replace(/\\pi_g/g, ' Pressão Oncótica Glomerular ')
+          .replace(/\$/g, '');
+
+        const textNode = document.createTextNode(text);
+        math.parentNode.replaceChild(textNode, math);
+      });
+
+      return clone.innerText;
+    }
+
+    ttsBtn.addEventListener('click', () => {
+      if (synth.speaking) {
+        synth.cancel();
+        ttsBtn.textContent = 'Ouvir Página';
+        ttsBtn.classList.remove('speaking');
+        return;
+      }
+
+      const textToRead = getCleanTextForSpeech(readableContent);
+
+      const utterance = new SpeechSynthesisUtterance(textToRead);
+      utterance.lang = 'pt-BR';
+      utterance.rate = 1.0;
+
+      utterance.onstart = () => {
+        ttsBtn.textContent = 'Parar Leitura';
+        ttsBtn.classList.add('speaking');
+      };
+
+      utterance.onend = () => {
+        ttsBtn.textContent = 'Ouvir Página';
+        ttsBtn.classList.remove('speaking');
+      };
+
+      utterance.onerror = () => {
+        synth.cancel();
+        ttsBtn.textContent = 'Ouvir Página';
+        ttsBtn.classList.remove('speaking');
+      };
+
+      synth.speak(utterance);
+    });
+
+    window.addEventListener('beforeunload', () => {
+      if (synth.speaking) {
+        synth.cancel();
+      }
+    });
+  </script>
+</body>
+</html>
