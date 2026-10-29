@@ -1,395 +1,1088 @@
 :root {
-    --primary-color: #0284c7;
-    --primary-hover: #0369a1;
-    --bg-color: #f8fafc;
-    --card-bg: #ffffff;
-    --text-color: #334155;
-    --heading-color: #0f172a;
-    --border-color: #e2e8f0;
-    --link-card-bg: #f1f5f9;
-    --link-card-hover: #e2e8f0;
-    --badge-bg: #e0f2fe;
-    --badge-text: #0369a1;
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-hover: 0 10px 15px -3px rgba(2, 132, 199, 0.15), 0 4px 6px -2px rgba(2, 132, 199, 0.05);
-    }
-    
-    body.dark-mode {
-    --bg-color: #0f172a;
-    --card-bg: #1e293b;
-    --text-color: #cbd5e1;
-    --heading-color: #f8fafc;
-    --border-color: #334155;
-    --link-card-bg: #334155;
-    --link-card-hover: #475569;
-    --badge-bg: #1e3a8a;
-    --badge-text: #93c5fd;
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-    --shadow-hover: 0 10px 15px -3px rgba(147, 197, 253, 0.1);
-    }
-    
-    {
-    box-sizing: border-box;
-    }
-    
-    body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    line-height: 1.6;
-    margin: 0;
-    padding: 1.5rem 1rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    
-    .container {
-    max-width: 720px;
-    margin: 0 auto;
-    background-color: var(--card-bg);
-    padding: 2.5rem;
-    border-radius: 16px;
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--border-color);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-    }
-    
-    .accessibility-bar {
-    display: flex;
-    gap: 0.75rem;
-    justify-content: flex-end;
-    margin-bottom: 1.5rem;
-    }
-    
-    .accessibility-btn {
-    background-color: var(--link-card-bg);
-    color: var(--heading-color);
-    border: 1px solid var(--border-color);
-    padding: 0.5rem 0.875rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.875rem;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    }
-    
-    .accessibility-btn:hover {
-    background-color: var(--link-card-hover);
-    transform: translateY(-1px);
-    }
-    
-    .accessibility-btn.speaking {
-    background-color: #ef4444 !important;
-    color: #ffffff !important;
-    border-color: #dc2626 !important;
-    }
-    
-    header {
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 1.25rem;
-    margin-bottom: 1.75rem;
-    }
-    
-    h1 {
-    color: var(--primary-color);
-    margin: 0.5rem 0 0 0;
-    font-size: 1.875rem;
-    letter-spacing: -0.025em;
-    }
-    
-    h2 {
-    font-size: 1.35rem;
-    color: var(--heading-color);
-    margin-top: 1.75rem;
-    margin-bottom: 0.75rem;
-    }
-    
-    .badge {
-    display: inline-block;
-    background-color: var(--badge-bg);
-    color: var(--badge-text);
-    padding: 0.3rem 0.85rem;
-    border-radius: 9999px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    }
-    
-    ul {
-    padding-left: 1.25rem;
-    margin-bottom: 1.25rem;
-    }
-    
-    li {
-    margin-bottom: 0.5rem;
-    }
-    
-    .modules-list {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    gap: 1rem;
-    margin-top: 1rem;
-    }
-    
-    .modules-list li {
-    margin: 0;
-    }
-    
-    .modules-list a {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.15rem 1.25rem;
-    background-color: var(--link-card-bg);
-    color: var(--heading-color);
-    text-decoration: none;
-    font-weight: 600;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    transition: all 0.25s ease;
-    box-shadow: var(--shadow-sm);
-    }
-    
-    .modules-list a:hover {
-    background-color: var(--card-bg);
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
-    }
-    
-    .modules-list a::after {
-    content: "→";
-    font-size: 1.2rem;
-    color: var(--primary-color);
-    transition: transform 0.2s ease;
-    }
-    
-    .modules-list a:hover::after {
-    transform: translateX(4px);
-    }
-    
-    p a, li:not(.modules-list li) a {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 600;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.2s ease, color 0.2s ease;
-    }
-    
-    p a:hover, li:not(.modules-list li) a:hover {
-    border-bottom-color: var(--primary-color);
-    }
-    
-    .nav-footer {
-    margin-top: 2.5rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--border-color);
-    text-align: center;
-    }
-    
-    .nav-footer a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.6rem 1.2rem;
-    background-color: var(--link-card-bg);
-    color: var(--heading-color);
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    border: 1px solid var(--border-color);
-    transition: all 0.2s ease;
-    }
-    
-    .nav-footer a:hover {
-    background-color: var(--primary-color);
-    color: #ffffff;
-    border-color: var(--primary-color);
-    }
+  color-scheme: light;
 
-    .quiz-card {
-        background-color: var(--card-bg, #ffffff);
-        border-radius: 12px;
-        padding: 1.5rem;
-        margin-top: 1rem;
-      }
-      
-      .options-list {
-        list-style: none;
-        padding: 0;
-        margin: 1.5rem 0;
-      }
-      
-      .option-item {
-        margin-bottom: 0.75rem;
-      }
-      
-      .option-btn {
-        width: 100%;
-        text-align: left;
-        padding: 0.85rem 1rem;
-        border: 2px solid #e2e8f0;
-        border-radius: 8px;
-        background-color: transparent;
-        color: var(--text-color, #334155);
-        font-size: 1rem;
-        cursor: pointer;
-        transition: all 0.2s ease;
-      }
-      
-      .option-btn:hover {
-        border-color: #0284c7;
-        background-color: rgba(2, 132, 199, 0.05);
-      }
-      
-      .option-btn.selected {
-        border-color: #0284c7;
-        background-color: rgba(2, 132, 199, 0.15);
-        font-weight: 600;
-      }
-      
-      .quiz-actions {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 1.5rem;
-      }
-      
-      .action-btn {
-        background-color: #0284c7;
-        color: #ffffff;
-        border: none;
-        padding: 0.75rem 1.5rem;
-        border-radius: 8px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-      }
-      
-      .action-btn:hover {
-        background-color: #0369a1;
-      }
-      
-      .action-btn:disabled {
-        background-color: #94a3b8;
-        cursor: not-allowed;
-      }
-      
-      .quiz-progress {
-        font-size: 0.9rem;
-        color: #64748b;
-        font-weight: 600;
-      }
-      
-      .results-card {
-        text-align: center;
-        padding: 2rem 1rem;
-      }
-      
-      .score-badge {
-        font-size: 3rem;
-        font-weight: 800;
-        color: #0284c7;
-        margin: 1rem 0;
-      }
-      
-      body.dark-mode .option-btn {
-        border-color: #334155;
-      }
-      
-      body.dark-mode .option-btn:hover {
-        border-color: #38bdf8;
-        background-color: rgba(56, 189, 248, 0.1);
-      }
-      
-      body.dark-mode .quiz-progress {
-        color: #94a3b8;
-      }
+  --primary-color: #365d4b;
+  --primary-hover: #254535;
+  --primary-rgb: 54, 93, 75;
+
+  --accent-color: #c36c4b;
+  --accent-hover: #a95034;
+  --accent-rgb: 195, 108, 75;
+
+  --bg-color: #eae6da;
+  --card-bg: #fffdf6;
+  --text-color: #4d554c;
+  --heading-color: #243b2e;
+  --border-color: #d8d2c2;
+
+  --link-card-bg: #f8f5eb;
+  --link-card-hover: #f0eee0;
+
+  --badge-bg: #e2e9d9;
+  --badge-text: #365d4b;
+
+  --success-bg: #e2edda;
+  --success-text: #315d37;
+  --success-border: #6d9a63;
+
+  --error-bg: #f5e2d9;
+  --error-text: #873d2d;
+  --error-border: #c36c4b;
+
+  --shadow-sm: 2px 3px 0 rgba(53, 68, 48, 0.055);
+  --shadow-md: 4px 5px 0 rgba(53, 68, 48, 0.055);
+  --shadow-hover: 4px 5px 0 rgba(195, 108, 75, 0.18);
+
+  --radius-sm: 4px;
+  --radius-md: 7px;
+  --radius-lg: 3px;
+
+  --font-display: Georgia, "Times New Roman", serif;
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+
+  --transition: 180ms ease;
+}
+
+
+/* 02. MODO ESCURO */
+
+body.dark-mode {
+  color-scheme: dark;
+
+  --primary-color: #a6c7a9;
+  --primary-hover: #c3dec3;
+  --primary-rgb: 166, 199, 169;
+
+  --accent-color: #e5a082;
+  --accent-hover: #f0b99f;
+  --accent-rgb: 229, 160, 130;
+
+  --bg-color: #1a241e;
+  --card-bg: #222f26;
+  --text-color: #d0d8ce;
+  --heading-color: #eff2e8;
+  --border-color: #3d4c40;
+
+  --link-card-bg: #29382d;
+  --link-card-hover: #324434;
+
+  --badge-bg: #334938;
+  --badge-text: #d3e5cc;
+
+  --success-bg: #294332;
+  --success-text: #c1e0b7;
+  --success-border: #739d6a;
+
+  --error-bg: #4a302b;
+  --error-text: #f3c1ab;
+  --error-border: #cb8469;
+
+  --shadow-sm: 2px 3px 0 rgba(0, 0, 0, 0.12);
+  --shadow-md: 4px 5px 0 rgba(0, 0, 0, 0.14);
+  --shadow-hover: 4px 5px 0 rgba(0, 0, 0, 0.18);
+}
+
+
+/* 03. ESTRUTURA GERAL */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 2.5rem 1.25rem;
+
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.75;
+
+  color: var(--text-color);
+
+  background-color: var(--bg-color);
+
+  /* Textura discreta de papel pautado. */
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 31px,
+      rgba(75, 85, 65, 0.045) 32px
+    );
+
+  transition:
+    background-color 250ms ease,
+    color 250ms ease;
+}
+
+body.dark-mode {
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 31px,
+      rgba(222, 231, 210, 0.025) 32px
+    );
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+img,
+video,
+svg {
+  max-width: 100%;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+strong {
+  color: var(--heading-color);
+}
+
+::selection {
+  background-color: var(--badge-bg);
+  color: var(--heading-color);
+}
+
+
+/* 04. FOLHA PRINCIPAL */
+
+.container {
+  position: relative;
+
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0;
+
+  background-color: var(--card-bg);
+
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+
+  box-shadow:
+    1px 1px 0 var(--border-color),
+    5px 6px 0 rgba(53, 68, 48, 0.06);
+
+  transition:
+    background-color 250ms ease,
+    border-color 250ms ease;
+}
+
+
+/* 05. BARRA DE ACESSIBILIDADE */
+
+.accessibility-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+
+  margin: 0;
+  padding: 1rem 2.5rem;
+
+  background-color: var(--card-bg);
+  border-bottom: 1px dashed var(--border-color);
+}
+
+.accessibility-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+
+  padding: 0.5rem 0.8rem;
+
+  color: var(--heading-color);
+  background-color: transparent;
+
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+
+  font-size: 0.82rem;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    color var(--transition),
+    background-color var(--transition),
+    border-color var(--transition);
+}
+
+.accessibility-btn:hover {
+  background-color: var(--link-card-hover);
+  border-color: var(--primary-color);
+}
+
+.accessibility-btn.speaking {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: #fffdf6;
+}
+
+
+/* 06. CABEÇALHO — A CAPA DO CADERNO */
+
+header {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  margin: 0;
+  padding: 2.8rem 2.5rem 3rem;
+
+  color: #f7f3e7;
+  background-color: #294b3b;
+
+  border-bottom: 5px solid var(--accent-color);
+}
+
+/* Linhas circulares inspiradas em desenhos anatômicos. */
+header::before,
+header::after {
+  content: "";
+
+  position: absolute;
+  z-index: -1;
+
+  pointer-events: none;
+  border: 1px solid rgba(247, 243, 231, 0.12);
+  border-radius: 50%;
+}
+
+header::before {
+  width: 290px;
+  height: 290px;
+  top: -105px;
+  right: -60px;
+
+  box-shadow:
+    0 0 0 18px rgba(247, 243, 231, 0.025),
+    0 0 0 38px rgba(247, 243, 231, 0.025),
+    0 0 0 60px rgba(247, 243, 231, 0.02);
+}
+
+header::after {
+  width: 135px;
+  height: 135px;
+  right: 18px;
+  bottom: -88px;
+
+  border-color: rgba(229, 160, 130, 0.32);
+}
+
+header .badge {
+  display: inline-block;
+
+  padding: 0.3rem 0.65rem;
+
+  color: #e6eadb;
+  background-color: rgba(255, 255, 255, 0.075);
+
+  border: 1px solid rgba(255, 255, 255, 0.23);
+  border-radius: 2px;
+
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+
+header h1 {
+  position: relative;
+
+  max-width: 680px;
+  margin: 1.1rem 0 0;
+
+  color: #fffdf4;
+
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.1rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.12;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* 07. CONTEÚDO */
+
+#readable-content {
+  padding: 2.25rem 2.5rem 2.75rem;
+}
+
+main > section {
+  min-width: 0;
+}
+
+main > section + section {
+  margin-top: 2.2rem;
+  padding-top: 1.75rem;
+
+  border-top: 1px dashed var(--border-color);
+}
+
+main > section > p {
+  max-width: 72ch;
+}
+
+
+/* 08. TÍTULOS DAS SEÇÕES */
+
+h1 {
+  color: var(--heading-color);
+  font-family: var(--font-display);
+  line-height: 1.2;
+}
+
+h2 {
+  position: relative;
+
+  margin: 0 0 1rem;
+  padding-left: 0.85rem;
+
+  color: var(--heading-color);
+
+  border-left: 3px solid var(--accent-color);
+
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+}
+
+h3 {
+  margin: 1.5rem 0 0.65rem;
+
+  color: var(--heading-color);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  line-height: 1.4;
+}
+
+
+/* 09. TEXTOS E LISTAS */
+
+ul {
+  padding-left: 1.45rem;
+}
+
+li {
+  margin-bottom: 0.6rem;
+}
+
+li::marker {
+  color: var(--accent-color);
+}
+
+main > section > ul:not(.options-list):not(.modules-list) {
+  margin: 0.8rem 0 1rem;
+  padding-left: 1.5rem;
+}
+
+main > section > ul:not(.options-list):not(.modules-list) li {
+  padding-left: 0.2rem;
+  margin-bottom: 0.9rem;
+}
+
+p a,
+main li a:not(.option-btn):not(.modules-list a) {
+  color: var(--primary-color);
+  font-weight: 650;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--transition);
+}
+
+p a:hover,
+main li a:not(.option-btn):not(.modules-list a):hover {
+  text-decoration-color: currentColor;
+}
+
+
+/* 10. CARTÕES DOS MÓDULOS */
+
+.options-list,
+.modules-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.85rem;
+
+  margin: 1.3rem 0 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.options-list > li,
+.modules-list > li {
+  min-width: 0;
+  margin: 0;
+}
+
+/*
+  Somente listas com links de módulos recebem duas colunas
+  e numeração de catálogo. As alternativas do quiz continuam
+  em uma única coluna.
+*/
+
+.options-list:has(> .option-item > a.option-btn) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  counter-reset: module;
+}
+
+.options-list:has(> .option-item > a.option-btn)
+  > .option-item {
+  counter-increment: module;
+}
+
+
+/* Cartão do módulo */
+
+.options-list > .option-item > a.option-btn,
+.modules-list > li > a {
+  position: relative;
+  display: block;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 120px;
+
+  padding: 1.2rem 2.65rem 1.15rem 3.6rem;
+
+  background-color: var(--link-card-bg);
+  color: var(--text-color);
+
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--primary-color);
+  border-radius: 2px;
+
+  font-size: 0.98rem;
+  line-height: 1.5;
+
+  text-decoration: none;
+  overflow-wrap: anywhere;
+
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition),
+    transform var(--transition);
+}
+
+
+/* Números como os de um índice impresso. */
+
+.options-list:has(> .option-item > a.option-btn)
+  > .option-item > a.option-btn::before {
+  content: counter(module, decimal-leading-zero);
+
+  position: absolute;
+  top: 1.2rem;
+  left: 1rem;
+
+  color: var(--accent-color);
+
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+
+/* Títulos dos cartões */
+
+.options-list > .option-item > a.option-btn strong,
+.modules-list > li > a strong {
+  display: block;
+  margin-bottom: 0.4rem;
+
+  color: var(--heading-color);
+
+  font-family: var(--font-display);
+  font-size: 1.07rem;
+  font-weight: 700;
+  line-height: 1.3;
+
+  transition: color var(--transition);
+}
+
+
+/* Descrições */
+
+.options-list > .option-item > a.option-btn span,
+.modules-list > li > a span {
+  display: block;
+
+  color: var(--text-color);
+
+  font-size: 0.86rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+
+/* Seta discreta */
+
+.options-list > .option-item > a.option-btn::after,
+.modules-list > li > a::after {
+  content: "↗";
+
+  position: absolute;
+  top: 1.15rem;
+  right: 0.9rem;
+
+  color: var(--accent-color);
+  font-size: 1.1rem;
+  line-height: 1;
+
+  transition: transform var(--transition);
+}
+
+
+/* Interação */
+
+.options-list > .option-item > a.option-btn:hover,
+.modules-list > li > a:hover {
+  background-color: var(--link-card-hover);
+  border-color: var(--accent-color);
+  border-left-color: var(--accent-color);
+
+  box-shadow: var(--shadow-hover);
+  transform: translate(-1px, -2px);
+}
+
+.options-list > .option-item > a.option-btn:hover strong,
+.modules-list > li > a:hover strong {
+  color: var(--primary-color);
+}
+
+.options-list > .option-item > a.option-btn:hover::after,
+.modules-list > li > a:hover::after {
+  transform: translate(2px, -2px);
+}
+
+
+/* O quiz funciona como uma ficha especial no catálogo. */
+
+.options-list:has(> .option-item > a.option-btn)
+  > .option-item:last-child > a.option-btn {
+  background-color: #f4ece0;
+  border: 1px dashed var(--accent-color) !important;
+  border-left: 3px solid var(--accent-color) !important;
+}
+
+body.dark-mode
+  .options-list:has(> .option-item > a.option-btn)
+  > .option-item:last-child > a.option-btn {
+  background-color: #3a3029;
+}
+
+.options-list:has(> .option-item > a.option-btn)
+  > .option-item:last-child > a.option-btn::before {
+  color: var(--accent-color);
+}
+
+
+/* 11. NAVEGAÇÃO ENTRE PÁGINAS */
+
+.nav-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+
+  border-top: 1px dashed var(--border-color);
+  text-align: center;
+}
+
+.nav-footer a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  padding: 0.7rem 1.1rem;
+
+  color: var(--heading-color);
+  background-color: var(--link-card-bg);
+
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+
+  font-size: 0.9rem;
+  font-weight: 650;
+  text-decoration: none;
+
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+}
+
+.nav-footer a:hover {
+  color: #fffdf6;
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+
+/* 12. CARTÃO DO QUIZ */
+
+.quiz-card {
+  margin-top: 1.25rem;
+  padding: 1.5rem;
+
+  background-color: var(--link-card-bg);
+
+  border: 1px solid var(--border-color);
+  border-top: 3px solid var(--primary-color);
+  border-radius: 2px;
+
+  box-shadow: var(--shadow-sm);
+}
+
+
+/* Alternativas do quiz: disposição vertical */
+
+.quiz-card .options-list,
+.options-list:has(> li > button.option-btn) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.7rem;
+
+  margin: 1.25rem 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.quiz-card .option-item,
+.options-list:has(> li > button.option-btn) > li {
+  margin: 0;
+}
+
+
+/* Importante: estilos exclusivos para botões, não links. */
+
+button.option-btn,
+.quiz-card button.option-btn {
+  display: block;
+
+  width: 100%;
+  min-width: 0;
+
+  padding: 0.85rem 1rem;
+
+  color: var(--text-color);
+  background-color: var(--card-bg);
+
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  font-weight: 450;
+  line-height: 1.6;
+
+  text-align: left;
+  overflow-wrap: anywhere;
+
+  cursor: pointer;
+
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+}
+
+button.option-btn:hover,
+.quiz-card button.option-btn:hover {
+  background-color: var(--link-card-hover);
+  border-color: var(--primary-color);
+}
+
+button.option-btn.selected,
+.quiz-card button.option-btn.selected {
+  background-color: var(--badge-bg);
+  border-color: var(--primary-color);
+
+  color: var(--heading-color);
+  font-weight: 650;
+
+  box-shadow: inset 3px 0 0 var(--primary-color);
+}
+
+button.option-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+
+/* 13. AÇÕES E PROGRESSO DO QUIZ */
+
+.quiz-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+
+  margin-top: 1.5rem;
+}
+
+.action-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0.75rem 1.2rem;
+
+  color: #fffdf6;
+  background-color: var(--primary-color);
+
+  border: 1px solid var(--primary-color);
+  border-radius: 2px;
+
+  font-size: 0.95rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background-color var(--transition),
+    border-color var(--transition);
+}
+
+.action-btn:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+body.dark-mode .action-btn {
+  color: #1a241e;
+}
+
+.action-btn:disabled {
+  background-color: #9ca69b;
+  border-color: #9ca69b;
+  color: #f7f3e7;
+
+  cursor: not-allowed;
+}
+
+.quiz-progress {
+  color: var(--text-color);
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+.results-card {
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.score-badge {
+  margin: 1rem 0;
+
+  color: var(--primary-color);
+
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+
+/* 14. REVISÃO DAS RESPOSTAS */
 
 .review-container {
-    margin-top: 2rem;
-    text-align: left;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.review-title {
+  margin: 0 0 1rem;
+  padding-bottom: 0.65rem;
+
+  color: var(--heading-color);
+  border-bottom: 1px dashed var(--border-color);
+
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  line-height: 1.4;
+}
+
+.review-item {
+  margin-bottom: 1.1rem;
+  padding: 1.15rem;
+
+  background-color: var(--card-bg);
+
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--border-color);
+  border-radius: 2px;
+}
+
+.review-question-title {
+  margin: 0 0 0.8rem;
+
+  color: var(--heading-color);
+
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.review-options-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.review-option {
+  margin-bottom: 0.5rem;
+  padding: 0.65rem 0.8rem;
+
+  color: var(--text-color);
+  background-color: var(--link-card-bg);
+
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+
+  font-size: 0.93rem;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.review-option.correct {
+  background-color: var(--success-bg);
+  border-color: var(--success-border);
+  color: var(--success-text);
+  font-weight: 650;
+}
+
+.review-option.incorrect {
+  background-color: var(--error-bg);
+  border-color: var(--error-border);
+  color: var(--error-text);
+  font-weight: 650;
+}
+
+
+/* 15. CONTEÚDOS CIENTÍFICOS E FÓRMULAS */
+
+mjx-container {
+  max-width: 100%;
+}
+
+mjx-container[display="true"] {
+  max-width: 100%;
+  padding: 0.4rem 0;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+table {
+  width: 100%;
+  margin: 1.25rem 0;
+
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.7rem 0.85rem;
+
+  text-align: left;
+  border: 1px solid var(--border-color);
+}
+
+th {
+  color: var(--heading-color);
+  background-color: var(--link-card-bg);
+  font-weight: 700;
+}
+
+pre {
+  max-width: 100%;
+  padding: 1rem;
+
+  overflow-x: auto;
+
+  background-color: var(--link-card-bg);
+  border: 1px solid var(--border-color);
+}
+
+code {
+  overflow-wrap: anywhere;
+}
+
+
+/* 16. ACESSIBILIDADE */
+
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 3px solid var(--accent-color);
+  outline-offset: 3px;
+}
+
+
+/* 17. TABLETS E CELULARES */
+
+@media (max-width: 680px) {
+  body {
+    padding: 1rem 0.65rem;
+    font-size: 0.96rem;
   }
-  
-  .review-title {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid #e2e8f0;
-    padding-bottom: 0.5rem;
-    color: var(--text-color, #334155);
+
+  .container {
+    box-shadow: 3px 4px 0 rgba(53, 68, 48, 0.05);
   }
-  
+
+  .accessibility-bar {
+    padding: 0.8rem 1rem;
+    gap: 0.45rem;
+  }
+
+  .accessibility-btn {
+    flex: 1;
+    padding: 0.55rem 0.4rem;
+    font-size: 0.78rem;
+  }
+
+  header {
+    padding: 2rem 1.35rem 2.25rem;
+  }
+
+  header h1 {
+    font-size: clamp(1.9rem, 7vw, 2.5rem);
+  }
+
+  #readable-content {
+    padding: 1.7rem 1.35rem 2rem;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+  }
+
+  main > section + section {
+    margin-top: 1.7rem;
+    padding-top: 1.4rem;
+  }
+
+  .options-list:has(> .option-item > a.option-btn) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .options-list > .option-item > a.option-btn,
+  .modules-list > li > a {
+    min-height: auto;
+    padding: 1rem 2.5rem 1rem 3.2rem;
+  }
+
+  .options-list:has(> .option-item > a.option-btn)
+    > .option-item > a.option-btn::before {
+    top: 1rem;
+    left: 0.85rem;
+  }
+
+  .quiz-card {
+    padding: 1rem;
+  }
+
+  .quiz-actions {
+    align-items: stretch;
+  }
+
+  .action-btn {
+    width: 100%;
+  }
+
+  .quiz-progress {
+    width: 100%;
+    text-align: center;
+  }
+
   .review-item {
-    background-color: var(--card-bg, #ffffff);
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 1.25rem;
-    margin-bottom: 1.25rem;
+    padding: 0.9rem;
   }
-  
-  .review-question-title {
-    font-size: 1.05rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-    color: var(--text-color, #334155);
+
+  th,
+  td {
+    padding: 0.5rem;
   }
-  
-  .review-options-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+}
+
+@media (max-width: 360px) {
+  body {
+    padding: 0.5rem;
   }
-  
-  .review-option {
-    padding: 0.6rem 0.85rem;
-    border-radius: 6px;
-    margin-bottom: 0.5rem;
-    border: 1px solid #e2e8f0;
-    font-size: 0.95rem;
-    color: var(--text-color, #334155);
+
+  header {
+    padding: 1.6rem 1rem 1.8rem;
   }
-  
-  .review-option.correct {
-    background-color: #dcfce7;
-    border-color: #22c55e;
-    color: #14532d;
-    font-weight: 600;
+
+  #readable-content {
+    padding: 1.3rem 1rem 1.6rem;
   }
-  
-  .review-option.incorrect {
-    background-color: #fee2e2;
-    border-color: #ef4444;
-    color: #7f1d1d;
-    font-weight: 600;
+
+  header h1 {
+    font-size: 1.8rem;
   }
-  
-  body.dark-mode .review-title {
-    border-bottom-color: #334155;
+
+  .badge {
+    font-size: 0.64rem;
+    letter-spacing: 0.04em;
   }
-  
-  body.dark-mode .review-item {
-    border-color: #334155;
+}
+
+
+/* 18. RESPEITAR PREFERÊNCIAS DE MOVIMENTO */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
-  
-  body.dark-mode .review-option {
-    border-color: #334155;
-  }
-  
-  body.dark-mode .review-option.correct {
-    background-color: rgba(34, 197, 94, 0.2);
-    border-color: #22c55e;
-    color: #86efac;
-  }
-  
-  body.dark-mode .review-option.incorrect {
-    background-color: rgba(239, 68, 68, 0.2);
-    border-color: #ef4444;
-    color: #fca5a5;
-  }
+}

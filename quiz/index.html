@@ -3,235 +3,836 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz do Néfron - Sistema Urinário</title>
-  
+
+  <meta
+    name="description"
+    content="Teste seus conhecimentos sobre o néfron e o sistema urinário."
+  >
+
+  <title>Quiz do Néfron — Caderno de Campo</title>
+
   <link rel="stylesheet" href="../style.css">
-
-  <script>
-    MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']]
-      },
-      options: {
-        enableMenu: false
-      }
-    };
-  </script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
-<body>
 
+<body>
   <div class="container">
-    
+
     <div class="accessibility-bar">
-      <button id="tts-btn" class="accessibility-btn" aria-label="Ouvir conteúdo da pergunta">
+      <button
+        id="tts-btn"
+        class="accessibility-btn"
+        aria-label="Ouvir pergunta ou resultado">
         Ouvir Pergunta
       </button>
-      <button id="theme-btn" class="accessibility-btn" aria-label="Alternar tema escuro">
+
+      <button
+        id="theme-btn"
+        class="accessibility-btn"
+        aria-label="Alternar tema escuro">
         Modo Escuro
       </button>
     </div>
 
     <header>
-      <span class="badge">Avaliação de Conhecimento</span>
+      <span class="badge">Caderno de Campo · Revisão</span>
       <h1>Quiz sobre o Néfron</h1>
     </header>
 
     <main id="readable-content">
-      <div id="quiz-container" class="quiz-card">
-        <div class="quiz-progress" id="quiz-progress">Pergunta 1 de 5</div>
-        <h2 id="question-text" style="margin-top: 0.5rem;">Carregando pergunta...</h2>
-        
-        <ul class="options-list" id="options-list"></ul>
+
+      <p id="quiz-intro">
+        Seis perguntas para revisar o funcionamento dos rins.
+        Cada rodada aborda diferentes partes do néfron.
+        No final, confira as respostas e entenda o motivo de cada uma.
+      </p>
+
+      <div
+        id="quiz-container"
+        class="quiz-card"
+        aria-labelledby="question-text">
+
+        <div
+          class="quiz-progress"
+          id="quiz-progress"
+          aria-live="polite">
+          Pergunta 1 de 6
+        </div>
+
+        <h2
+          id="question-text"
+          tabindex="-1"
+          style="margin-top: 0.75rem;">
+          Carregando pergunta...
+        </h2>
+
+        <ul
+          class="options-list"
+          id="options-list">
+        </ul>
 
         <div class="quiz-actions">
           <span></span>
-          <button id="next-btn" class="action-btn" disabled>Próxima</button>
+
+          <button
+            id="next-btn"
+            class="action-btn"
+            disabled>
+            Próxima
+          </button>
         </div>
       </div>
 
-      <div id="result-container" class="quiz-card results-card" style="display: none;">
-        <h2>Quiz Concluído!</h2>
-        <p>Sua pontuação final foi:</p>
-        <div class="score-badge" id="score-text">0 / 5</div>
-        <p id="score-message"></p>
-        
-        <div id="review-container" class="review-container"></div>
+      <div
+        id="result-container"
+        class="quiz-card results-card"
+        style="display: none;"
+        aria-labelledby="result-title">
 
-        <button id="restart-btn" class="action-btn" style="margin-top: 1.5rem;">Tentar Novamente</button>
+        <h2 id="result-title">Rodada concluída!</h2>
+
+        <p>Sua pontuação nesta rodada:</p>
+
+        <div
+          class="score-badge"
+          id="score-text">
+          0 / 6
+        </div>
+
+        <p id="score-message"></p>
+
+        <div
+          id="review-container"
+          class="review-container">
+        </div>
+
+        <button
+          id="restart-btn"
+          class="action-btn"
+          style="margin-top: 1.5rem;">
+          Nova rodada
+        </button>
       </div>
+
     </main>
 
     <footer class="nav-footer">
       <a href="../">← Voltar para a Visão Geral do Néfron</a>
     </footer>
+
   </div>
 
   <script>
-    /* --- 1. MODO ESCURO --- */
-    const themeBtn = document.getElementById('theme-btn');
-    
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
-      themeBtn.textContent = 'Modo Claro';
-    }
-
-    themeBtn.addEventListener('click', () => {
-      document.body.classList.toggle('dark-mode');
-      const isDark = document.body.classList.contains('dark-mode');
-      themeBtn.textContent = isDark ? 'Modo Claro' : 'Modo Escuro';
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    });
-
     const questionBank = [
+
       {
-        question: "Qual estrutura do corpúsculo renal é composta por podócitos que formam as fendas de filtração?",
-        options: ["Folheto parietal da Cápsula de Bowman", "Folheto visceral da Cápsula de Bowman", "Endocélio fenestrado capilar", "Arteríola eferente"],
-        correct: 1
+        topic: "Visão geral",
+        question: "Qual é a principal função do néfron?",
+        options: [
+          "Armazenar a urina antes de sua eliminação.",
+          "Filtrar o sangue e ajustar o líquido tubular.",
+          "Produzir células sanguíneas para a circulação.",
+          "Conduzir a urina dos rins até a bexiga."
+        ],
+        correct: 1,
+        explanation:
+          "O néfron filtra parte do líquido do sangue e modifica " +
+          "sua composição por meio da reabsorção e da secreção, " +
+          "participando da formação da urina."
       },
+
       {
-        question: "Qual é a principal adaptação histológica do Túbulo Contorcido Proximal para realizar reabsorção massiva?",
-        options: ["Células pavimentosas sem organelas", "Presença de borda em escova (microvilosidades)", "Cílios móveis na superfície basal", "Camada espessa de queratina"],
-        correct: 1
+        topic: "Visão geral",
+        question: "O que significa reabsorção tubular?",
+        options: [
+          "A passagem de resíduos do sangue para a urina.",
+          "A entrada de sangue nos capilares do glomérulo.",
+          "O retorno de substâncias do túbulo para o sangue.",
+          "O armazenamento do líquido dentro da bexiga."
+        ],
+        correct: 2,
+        explanation:
+          "Na reabsorção, substâncias que estão no líquido tubular " +
+          "passam de volta para o sangue. Isso permite recuperar " +
+          "água, sais e nutrientes de que o organismo necessita."
       },
+
       {
-        question: "Qual parte da Alça de Henle é altamente permeável à água através de aquaporinas-1?",
-        options: ["Ramo ascendente espesso", "Ramo ascendente fino", "Ramo descendente fino", "Mácula densa"],
-        correct: 2
+        topic: "Visão geral",
+        question: "Por que os rins controlam a quantidade de água e sais?",
+        options: [
+          "Para manter o equilíbrio interno do organismo.",
+          "Para impedir que o sangue transporte nutrientes.",
+          "Para transformar todas as substâncias em urina.",
+          "Para manter constante o volume de urina eliminado."
+        ],
+        correct: 0,
+        explanation:
+          "O organismo precisa manter quantidades adequadas de água " +
+          "e sais minerais. Os rins ajudam a regular esse equilíbrio, " +
+          "eliminando excessos e recuperando substâncias necessárias."
       },
+
       {
-        question: "O co-transportador $Na^+/K^+/2Cl^-$ é característico de qual segmento do néfron?",
-        options: ["Túbulo Contorcido Proximal", "Ramo ascendente espesso da Alça de Henle", "Duto Coletor", "Glomérulo"],
-        correct: 1
+        topic: "Visão geral",
+        question:
+          "Qual sequência representa o caminho do líquido após a filtração?",
+        options: [
+          "Glomérulo → alça de Henle → cápsula de Bowman → ducto coletor.",
+          "Cápsula de Bowman → túbulo distal → túbulo proximal → alça.",
+          "Túbulo proximal → cápsula de Bowman → alça → ducto coletor.",
+          "Cápsula de Bowman → túbulo proximal → alça de Henle → túbulo distal → ducto coletor."
+        ],
+        correct: 3,
+        explanation:
+          "O líquido filtrado é recolhido pela cápsula de Bowman, " +
+          "segue para o túbulo proximal, percorre a alça de Henle " +
+          "e o túbulo distal e depois chega ao ducto coletor."
       },
+
       {
-        question: "A mácula densa está localizada no início de qual segmento do néfron?",
-        options: ["Túbulo Contorcido Distal", "Túbulo Contorcido Proximal", "Cápsula de Bowman", "Alça de Henle descendente"],
-        correct: 0
+        topic: "Corpúsculo renal",
+        question: "Quais estruturas formam o corpúsculo renal?",
+        options: [
+          "Alça de Henle e túbulo contorcido distal.",
+          "Glomérulo e cápsula de Bowman.",
+          "Túbulo proximal e ducto coletor.",
+          "Cápsula renal e pelve renal."
+        ],
+        correct: 1,
+        explanation:
+          "O corpúsculo renal é formado pelo glomérulo, um conjunto " +
+          "de capilares sanguíneos, e pela cápsula de Bowman, " +
+          "que envolve esses capilares e recolhe o filtrado."
       },
+
       {
-        question: "O Hormônio Antidiurético (ADH) atua no Duto Coletor promovendo a inserção de qual canal?",
-        options: ["Aquaporina-2", "Bomba $Na^+/K^+$-ATPase", "Canais ENaC", "Co-transportador $Na^+/Cl^-$"],
-        correct: 0
+        topic: "Corpúsculo renal",
+        question:
+          "Quais substâncias normalmente conseguem passar pela barreira de filtração?",
+        options: [
+          "Hemácias, proteínas grandes e água.",
+          "Leucócitos, glicose e proteínas grandes.",
+          "Água, sais minerais, glicose e ureia.",
+          "Células sanguíneas e todas as proteínas."
+        ],
+        correct: 2,
+        explanation:
+          "Água e diversas moléculas pequenas, como sais, glicose " +
+          "e ureia, podem atravessar a barreira. Células sanguíneas " +
+          "e a maior parte das proteínas normalmente permanecem no sangue."
       },
+
       {
-        question: "Qual das seguintes substâncias é 100% reabsorvida no Túbulo Contorcido Proximal sob condições fisiológicas normais?",
-        options: ["Ureia", "Glicose", "Creatinina", "Sódio"],
-        correct: 1
+        topic: "Corpúsculo renal",
+        question:
+          "O que normalmente permanece no sangue após a filtração glomerular?",
+        options: [
+          "As células sanguíneas e a maior parte das proteínas.",
+          "Toda a água, todos os sais e toda a glicose.",
+          "A ureia e todos os resíduos do metabolismo.",
+          "A glicose e todos os nutrientes filtráveis."
+        ],
+        correct: 0,
+        explanation:
+          "A barreira de filtração normalmente impede a passagem " +
+          "das células sanguíneas e restringe fortemente a passagem " +
+          "da maior parte das proteínas plasmáticas."
       },
+
       {
-        question: "As células intercaladas do Tipo A no Duto Coletor têm como função principal:",
-        options: ["Secretar prótons ($H^+$) e reabsorver bicarbonato ($HCO_3^-$)", "Reabsorver 100% da água filtrada", "Sintetizar glicose a partir de aminoácidos", "Secretar potássio em resposta à aldosterona"],
-        correct: 0
+        topic: "Corpúsculo renal",
+        question:
+          "Para qual estrutura o filtrado segue depois de sair da cápsula de Bowman?",
+        options: [
+          "Diretamente para o ducto coletor.",
+          "Diretamente para o túbulo contorcido distal.",
+          "Diretamente para a pelve renal.",
+          "Para o túbulo contorcido proximal."
+        ],
+        correct: 3,
+        explanation:
+          "O filtrado sai do espaço da cápsula de Bowman pelo polo " +
+          "urinário e entra no túbulo contorcido proximal."
       },
+
       {
-        question: "A barreira de filtração glomerular impede a passagem de proteínas plasmáticas devido principalmente a:",
-        options: ["Pressão hidrostática negativa", "Cargas negativas na membrana basal e fendas de filtração", "Ação motora das mitocôndrias", "Tamanho excessivo das fenestras capilares"],
-        correct: 1
+        topic: "Túbulo proximal",
+        question:
+          "Qual é a função das microvilosidades no túbulo proximal?",
+        options: [
+          "Diminuir o contato entre as células e o filtrado.",
+          "Aumentar a superfície disponível para reabsorção.",
+          "Impedir a passagem de água para fora do túbulo.",
+          "Produzir a pressão que inicia a filtração do sangue."
+        ],
+        correct: 1,
+        explanation:
+          "As microvilosidades formam uma borda em escova que aumenta " +
+          "a área de contato com o líquido tubular, favorecendo " +
+          "a reabsorção de substâncias."
       },
+
       {
-        question: "O hormônio paratireóide (PTH) estimula a reabsorção ativa de qual íon no Túbulo Contorcido Distal?",
-        options: ["Sódio ($Na^+$)", "Potássio ($K^+$)", "Cálcio ($Ca^{2+}$)", "Cloreto ($Cl^-$)"],
-        correct: 2
+        topic: "Túbulo proximal",
+        question:
+          "Em condições normais, o que acontece com a glicose filtrada?",
+        options: [
+          "Ela permanece no filtrado até ser eliminada.",
+          "Ela é transformada em ureia dentro do túbulo.",
+          "Ela é reabsorvida quase completamente pelo túbulo proximal.",
+          "Ela retorna ao sangue somente no ducto coletor."
+        ],
+        correct: 2,
+        explanation:
+          "Em condições fisiológicas normais, praticamente toda a " +
+          "glicose filtrada é reabsorvida, principalmente no túbulo " +
+          "contorcido proximal. Isso evita sua perda significativa na urina."
       },
+
       {
-        question: "Qual hormônio atua no Duto Coletor aumentando a retenção de sódio e a excreção de potássio?",
-        options: ["Eritropoietina", "Aldosterona", "Renina", "Insulina"],
-        correct: 1
+        topic: "Túbulo proximal",
+        question:
+          "O que acontece principalmente no túbulo contorcido proximal?",
+        options: [
+          "Grande parte da água e das substâncias úteis é reabsorvida.",
+          "Toda a urina fica armazenada até a micção.",
+          "O sangue é filtrado pela primeira vez nos capilares.",
+          "A água deixa de atravessar a parede do túbulo."
+        ],
+        correct: 0,
+        explanation:
+          "O túbulo proximal recupera uma grande parte da água e de " +
+          "substâncias filtradas, como glicose, aminoácidos e sais."
       },
+
       {
-        question: "O fluido que sai do espaço capsular da Cápsula de Bowman segue diretamente para:",
-        options: ["Alça de Henle", "Túbulo Contorcido Proximal", "Túbulo Contorcido Distal", "Duto Coletor"],
-        correct: 1
+        topic: "Túbulo proximal",
+        question:
+          "Qual alternativa descreve corretamente a reabsorção de água?",
+        options: [
+          "A água passa do sangue para o espaço da cápsula de Bowman.",
+          "A água é produzida pelas células do túbulo proximal.",
+          "A água é eliminada sem passar pelos túbulos renais.",
+          "Parte da água do líquido tubular retorna à circulação sanguínea."
+        ],
+        correct: 3,
+        explanation:
+          "Durante a reabsorção, parte da água deixa o líquido tubular, " +
+          "passa pelos tecidos renais e retorna à circulação sanguínea."
+      },
+
+      {
+        topic: "Alça de Henle",
+        question:
+          "O que acontece principalmente no ramo descendente da alça de Henle?",
+        options: [
+          "A glicose é produzida para abastecer o sangue.",
+          "A água sai do túbulo em direção ao tecido ao redor.",
+          "A urina é armazenada antes de chegar à bexiga.",
+          "O líquido deixa de entrar em contato com a medula."
+        ],
+        correct: 1,
+        explanation:
+          "O ramo descendente permite a saída de água por osmose. " +
+          "Como a água deixa o líquido tubular, ele tende a ficar mais concentrado."
+      },
+
+      {
+        topic: "Alça de Henle",
+        question:
+          "O que caracteriza o ramo ascendente da alça de Henle?",
+        options: [
+          "A água sai livremente junto com os sais.",
+          "O filtrado permanece sem qualquer alteração.",
+          "Sais podem sair, enquanto a água não os acompanha livremente.",
+          "A glicose é recuperada quase completamente nesse trecho."
+        ],
+        correct: 2,
+        explanation:
+          "Os ramos ascendentes permitem a movimentação de sais, " +
+          "mas são pouco permeáveis ou impermeáveis à água. " +
+          "Por isso, o líquido tende a ficar mais diluído durante a subida."
+      },
+
+      {
+        topic: "Alça de Henle",
+        question:
+          "Por que a alça de Henle é importante para concentrar a urina?",
+        options: [
+          "Ajuda a criar uma diferença de concentração na medula renal.",
+          "Impede que o sangue chegue aos capilares do glomérulo.",
+          "Armazena toda a água que será eliminada pelo organismo.",
+          "Transforma diretamente o filtrado em urina definitiva."
+        ],
+        correct: 0,
+        explanation:
+          "A movimentação diferente de água e sais nos dois ramos " +
+          "ajuda a criar e manter uma diferença de concentração na medula. " +
+          "Essa diferença favorece a recuperação de água no ducto coletor."
+      },
+
+      {
+        topic: "Alça de Henle",
+        question:
+          "Como muda a concentração do líquido ao percorrer a alça de Henle?",
+        options: [
+          "Fica sempre igual nos dois ramos.",
+          "Fica mais diluído na descida e mais concentrado na subida.",
+          "Perde toda a água antes de entrar na alça.",
+          "Tende a concentrar-se na descida e a diluir-se na subida."
+        ],
+        correct: 3,
+        explanation:
+          "Na descida, a saída de água tende a concentrar o líquido. " +
+          "Na subida, a saída de sais sem a mesma passagem de água " +
+          "tende a diluí-lo."
+      },
+
+      {
+        topic: "Túbulo distal",
+        question:
+          "Qual é uma função importante do túbulo contorcido distal?",
+        options: [
+          "Armazenar a urina formada nos rins.",
+          "Realizar ajustes na quantidade de sais e no equilíbrio do sangue.",
+          "Produzir a maior parte das células sanguíneas.",
+          "Receber diretamente o sangue que entra no glomérulo."
+        ],
+        correct: 1,
+        explanation:
+          "O túbulo distal participa de ajustes na quantidade de íons " +
+          "e no equilíbrio ácido-base, contribuindo para a composição " +
+          "final do líquido que será eliminado."
+      },
+
+      {
+        topic: "Túbulo distal",
+        question:
+          "Qual estrutura recebe o líquido depois que ele percorre a alça de Henle?",
+        options: [
+          "Cápsula de Bowman.",
+          "Ducto coletor, imediatamente.",
+          "Túbulo contorcido distal.",
+          "Ureter."
+        ],
+        correct: 2,
+        explanation:
+          "Depois da alça de Henle, o líquido segue para o túbulo " +
+          "contorcido distal, antes de chegar ao ducto coletor."
+      },
+
+      {
+        topic: "Túbulo distal",
+        question:
+          "Em comparação com o túbulo proximal, o túbulo distal se destaca por:",
+        options: [
+          "Realizar ajustes mais específicos na composição do líquido tubular.",
+          "Ser o local onde todo o sangue é filtrado pela primeira vez.",
+          "Armazenar a urina até que ocorra a micção.",
+          "Impedir qualquer movimentação de sais e água."
+        ],
+        correct: 0,
+        explanation:
+          "O túbulo proximal realiza grande parte da reabsorção. " +
+          "O túbulo distal participa de ajustes mais específicos " +
+          "na composição do líquido tubular."
+      },
+
+      {
+        topic: "Túbulo distal",
+        question:
+          "Como o túbulo distal ajuda a manter o equilíbrio do sangue?",
+        options: [
+          "Mantendo todos os sais dentro do líquido tubular.",
+          "Impedindo que substâncias sejam reabsorvidas.",
+          "Transformando a ureia em células sanguíneas.",
+          "Ajustando a movimentação de íons e contribuindo para o controle da acidez."
+        ],
+        correct: 3,
+        explanation:
+          "O túbulo distal modifica a quantidade de certos íons no " +
+          "líquido tubular e participa da regulação do equilíbrio ácido-base."
+      },
+
+      {
+        topic: "Ducto coletor",
+        question:
+          "Qual característica diferencia o ducto coletor dos túbulos de um néfron?",
+        options: [
+          "É o local onde o sangue entra pela primeira vez.",
+          "Recebe líquido proveniente de vários néfrons.",
+          "É responsável por filtrar diretamente as células sanguíneas.",
+          "Conecta a bexiga diretamente aos capilares renais."
+        ],
+        correct: 1,
+        explanation:
+          "O ducto coletor recebe o líquido de diferentes néfrons e " +
+          "contribui para os ajustes finais da composição da urina."
+      },
+
+      {
+        topic: "Ducto coletor",
+        question:
+          "O que acontece quando a ação do ADH aumenta?",
+        options: [
+          "A filtração do sangue deixa de acontecer.",
+          "A água fica impedida de retornar à circulação.",
+          "Mais água pode ser reabsorvida, concentrando a urina.",
+          "Toda a glicose filtrada passa a ser eliminada."
+        ],
+        correct: 2,
+        explanation:
+          "O ADH aumenta a permeabilidade do ducto coletor à água. " +
+          "Assim, mais água pode retornar ao sangue e a urina tende " +
+          "a ficar mais concentrada."
+      },
+
+      {
+        topic: "Ducto coletor",
+        question:
+          "O que tende a acontecer quando a ação do ADH diminui?",
+        options: [
+          "Menos água é reabsorvida e a urina tende a ficar mais diluída.",
+          "Mais água é reabsorvida e a urina fica sempre concentrada.",
+          "O ducto coletor deixa de receber líquido dos néfrons.",
+          "A filtração glomerular é interrompida por completo."
+        ],
+        correct: 0,
+        explanation:
+          "Com menor ação do ADH, o ducto coletor fica menos permeável " +
+          "à água. Assim, uma quantidade maior de água tende a permanecer " +
+          "no líquido e ser eliminada na urina."
+      },
+
+      {
+        topic: "Ducto coletor",
+        question:
+          "Qual é uma das principais ações da aldosterona nos rins?",
+        options: [
+          "Impedir a passagem de sangue pelos glomérulos.",
+          "Aumentar diretamente a filtração de todas as proteínas.",
+          "Bloquear a reabsorção de sódio nos túbulos.",
+          "Favorecer a reabsorção de sódio e a eliminação de potássio."
+        ],
+        correct: 3,
+        explanation:
+          "A aldosterona atua principalmente em regiões finais do néfron, " +
+          "favorecendo a reabsorção de sódio e a secreção de potássio. " +
+          "Seu efeito sobre a água depende de outros fatores, incluindo o ADH."
       }
+
     ];
+
+
+    const QUESTIONS_PER_ROUND = 6;
+
+    const labels = ["A", "B", "C", "D"];
 
     let currentQuestions = [];
     let userAnswers = [];
     let currentQuestionIndex = 0;
     let selectedOption = null;
     let score = 0;
+    let ptVoice = null;
 
-    const labels = ["A", "B", "C", "D"];
+    const themeBtn = document.getElementById("theme-btn");
+    const ttsBtn = document.getElementById("tts-btn");
 
-    const quizContainer = document.getElementById('quiz-container');
-    const resultContainer = document.getElementById('result-container');
-    const questionText = document.getElementById('question-text');
-    const optionsList = document.getElementById('options-list');
-    const progressText = document.getElementById('quiz-progress');
-    const nextBtn = document.getElementById('next-btn');
-    const scoreText = document.getElementById('score-text');
-    const scoreMessage = document.getElementById('score-message');
-    const reviewContainer = document.getElementById('review-container');
-    const restartBtn = document.getElementById('restart-btn');
+    const quizContainer = document.getElementById("quiz-container");
+    const resultContainer = document.getElementById("result-container");
 
-    function getRandomQuestions(bank, count) {
-      const shuffled = [...bank].sort(() => 0.5 - Math.random());
-      return shuffled.slice(0, count);
+    const questionText = document.getElementById("question-text");
+    const optionsList = document.getElementById("options-list");
+    const progressText = document.getElementById("quiz-progress");
+    const nextBtn = document.getElementById("next-btn");
+
+    const scoreText = document.getElementById("score-text");
+    const scoreMessage = document.getElementById("score-message");
+    const reviewContainer = document.getElementById("review-container");
+    const restartBtn = document.getElementById("restart-btn");
+
+    const synth = "speechSynthesis" in window
+      ? window.speechSynthesis
+      : null;
+
+    function shuffleArray(array) {
+      const shuffled = [...array];
+
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [shuffled[i], shuffled[j]] =
+          [shuffled[j], shuffled[i]];
+      }
+
+      return shuffled;
     }
+
+    function getBalancedQuestions() {
+      const topics = [
+        "Visão geral",
+        "Corpúsculo renal",
+        "Túbulo proximal",
+        "Alça de Henle",
+        "Túbulo distal",
+        "Ducto coletor"
+      ];
+
+      const selected = topics.map(topic => {
+        const candidates = questionBank.filter(
+          question => question.topic === topic
+        );
+
+        if (candidates.length === 0) {
+          throw new Error(
+            `Não há perguntas cadastradas para o tema: ${topic}`
+          );
+        }
+
+        const chosen =
+          candidates[Math.floor(Math.random() * candidates.length)];
+
+        const correctAnswer = chosen.options[chosen.correct];
+
+        const shuffledOptions = shuffleArray(chosen.options);
+
+        return {
+          ...chosen,
+          options: shuffledOptions,
+          correct: shuffledOptions.indexOf(correctAnswer)
+        };
+      });
+
+      return shuffleArray(selected);
+    }
+
+    try {
+      if (localStorage.getItem("theme") === "dark") {
+        document.body.classList.add("dark-mode");
+        themeBtn.textContent = "Modo Claro";
+      }
+    } catch (error) {
+    }
+
+    themeBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark-mode");
+
+      const isDark =
+        document.body.classList.contains("dark-mode");
+
+      themeBtn.textContent =
+        isDark ? "Modo Claro" : "Modo Escuro";
+
+      try {
+        localStorage.setItem(
+          "theme",
+          isDark ? "dark" : "light"
+        );
+      } catch (error) {
+      }
+    });
+
+    function loadVoices() {
+      if (!synth) return;
+
+      const voices = synth.getVoices();
+
+      ptVoice =
+        voices.find(
+          voice => voice.lang.toLowerCase() === "pt-br"
+        ) ||
+        voices.find(
+          voice => voice.lang.toLowerCase().startsWith("pt")
+        ) ||
+        null;
+    }
+
+    if (synth) {
+      loadVoices();
+      synth.addEventListener("voiceschanged", loadVoices);
+    }
+
+    function stopSpeech() {
+      if (synth) {
+        synth.cancel();
+      }
+
+      const showingResults =
+        resultContainer.style.display !== "none";
+
+      ttsBtn.textContent =
+        showingResults ? "Ouvir Resultado" : "Ouvir Pergunta";
+
+      ttsBtn.classList.remove("speaking");
+
+      ttsBtn.setAttribute(
+        "aria-label",
+        showingResults
+          ? "Ouvir resultado do quiz"
+          : "Ouvir pergunta"
+      );
+    }
+
+    function getTextForSpeech() {
+      if (resultContainer.style.display !== "none") {
+        return (
+          `Quiz concluído. Você acertou ${score} de ` +
+          `${QUESTIONS_PER_ROUND} perguntas. ` +
+          scoreMessage.textContent
+        );
+      }
+
+      const question = currentQuestions[currentQuestionIndex];
+
+      if (!question) return "";
+
+      const parts = [
+        `Pergunta ${currentQuestionIndex + 1} de ${QUESTIONS_PER_ROUND}.`,
+        question.question
+      ];
+
+      question.options.forEach((option, index) => {
+        parts.push(`Alternativa ${labels[index]}. ${option}`);
+      });
+
+      return parts.join(" ");
+    }
+
+    ttsBtn.addEventListener("click", () => {
+      if (!synth) {
+        alert("Seu navegador não suporta leitura por voz.");
+        return;
+      }
+
+      if (
+        synth.speaking ||
+        synth.pending ||
+        ttsBtn.classList.contains("speaking")
+      ) {
+        stopSpeech();
+        return;
+      }
+
+      synth.cancel();
+
+      const utterance = new SpeechSynthesisUtterance(
+        getTextForSpeech()
+      );
+
+      utterance.lang = "pt-BR";
+      utterance.rate = 1.0;
+
+      if (ptVoice) {
+        utterance.voice = ptVoice;
+      }
+
+      utterance.onstart = () => {
+        ttsBtn.textContent = "Parar Leitura";
+        ttsBtn.classList.add("speaking");
+        ttsBtn.setAttribute(
+          "aria-label",
+          "Parar leitura"
+        );
+      };
+
+      utterance.onend = stopSpeech;
+      utterance.onerror = stopSpeech;
+
+      synth.speak(utterance);
+    });
+
 
     function initQuiz() {
       stopSpeech();
-      currentQuestions = getRandomQuestions(questionBank, 5);
+
+      currentQuestions = getBalancedQuestions();
       userAnswers = [];
       currentQuestionIndex = 0;
-      score = 0;
       selectedOption = null;
+      score = 0;
 
-      quizContainer.style.display = 'block';
-      resultContainer.style.display = 'none';
+      quizContainer.style.display = "block";
+      resultContainer.style.display = "none";
 
       loadQuestion();
     }
 
     function loadQuestion() {
       stopSpeech();
+
       selectedOption = null;
       nextBtn.disabled = true;
 
-      const q = currentQuestions[currentQuestionIndex];
-      progressText.textContent = `Pergunta ${currentQuestionIndex + 1} de 5`;
-      questionText.innerHTML = q.question;
-      optionsList.innerHTML = '';
+      const question =
+        currentQuestions[currentQuestionIndex];
 
-      q.options.forEach((opt, idx) => {
-        const li = document.createElement('li');
-        li.className = 'option-item';
+      progressText.textContent =
+        `Pergunta ${currentQuestionIndex + 1} de ${QUESTIONS_PER_ROUND}`;
 
-        const btn = document.createElement('button');
-        btn.className = 'option-btn';
-        btn.innerHTML = `<strong>${labels[idx]})</strong> ${opt}`;
-        btn.addEventListener('click', () => selectOption(idx, btn));
+      questionText.textContent = question.question;
+
+      optionsList.replaceChildren();
+
+      nextBtn.textContent =
+        currentQuestionIndex === QUESTIONS_PER_ROUND - 1
+          ? "Ver resultado"
+          : "Próxima";
+
+      question.options.forEach((option, index) => {
+        const li = document.createElement("li");
+        li.className = "option-item";
+
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "option-btn";
+
+        const label = document.createElement("strong");
+        label.textContent = `${labels[index]}) `;
+
+        btn.appendChild(label);
+        btn.appendChild(document.createTextNode(option));
+
+        btn.addEventListener("click", () => {
+          selectOption(index, btn);
+        });
 
         li.appendChild(btn);
         optionsList.appendChild(li);
       });
-
-      if (window.MathJax) {
-        MathJax.typesetPromise();
-      }
     }
 
-    function selectOption(index, btn) {
+    function selectOption(index, button) {
       selectedOption = index;
-      const allBtns = optionsList.querySelectorAll('.option-btn');
-      allBtns.forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
+
+      const allButtons =
+        optionsList.querySelectorAll(".option-btn");
+
+      allButtons.forEach(btn => {
+        btn.classList.remove("selected");
+        btn.setAttribute("aria-pressed", "false");
+      });
+
+      button.classList.add("selected");
+      button.setAttribute("aria-pressed", "true");
+
       nextBtn.disabled = false;
     }
 
-    nextBtn.addEventListener('click', () => {
+    nextBtn.addEventListener("click", () => {
       if (selectedOption === null) return;
 
       userAnswers.push(selectedOption);
 
-      if (selectedOption === currentQuestions[currentQuestionIndex].correct) {
+      if (
+        selectedOption ===
+        currentQuestions[currentQuestionIndex].correct
+      ) {
         score++;
       }
 
       currentQuestionIndex++;
 
-      if (currentQuestionIndex < 5) {
+      if (currentQuestionIndex < QUESTIONS_PER_ROUND) {
         loadQuestion();
       } else {
         showResults();
@@ -240,185 +841,138 @@
 
     function showResults() {
       stopSpeech();
-      quizContainer.style.display = 'none';
-      resultContainer.style.display = 'block';
 
-      scoreText.textContent = `${score} / 5`;
+      quizContainer.style.display = "none";
+      resultContainer.style.display = "block";
 
-      if (score === 5) {
-        scoreMessage.textContent = "Excelente! Você demonstrou domínio completo da histologia e fisiologia do néfron.";
-      } else if (score >= 3) {
-        scoreMessage.textContent = "Bom trabalho! Você tem um bom conhecimento sobre o funcionamento do néfron.";
+      scoreText.textContent =
+        `${score} / ${QUESTIONS_PER_ROUND}`;
+
+      if (score === QUESTIONS_PER_ROUND) {
+        scoreMessage.textContent =
+          "Excelente! Você acertou todas as questões. " +
+          "Continue praticando para consolidar o aprendizado.";
+      } else if (score >= 4) {
+        scoreMessage.textContent =
+          "Bom trabalho! Você compreendeu boa parte dos conceitos. " +
+          "Confira as explicações para revisar os pontos restantes.";
+      } else if (score >= 2) {
+        scoreMessage.textContent =
+          "Você já reconhece alguns conceitos. " +
+          "Use a revisão abaixo para entender melhor as funções " +
+          "de cada parte do néfron.";
       } else {
-        scoreMessage.textContent = "Recomenda-se revisar os módulos histológicos para reforçar o aprendizado.";
+        scoreMessage.textContent =
+          "Esta rodada serve como ponto de partida. " +
+          "Leia as explicações e revise os módulos antes de tentar novamente.";
       }
 
       renderReview();
+
+      ttsBtn.textContent = "Ouvir Resultado";
+      ttsBtn.setAttribute(
+        "aria-label",
+        "Ouvir resultado do quiz"
+      );
     }
 
     function renderReview() {
-      reviewContainer.innerHTML = '<h3 class="review-title">Revisão das Respostas</h3>';
+      reviewContainer.replaceChildren();
 
-      currentQuestions.forEach((q, qIdx) => {
-        const userChoice = userAnswers[qIdx];
-        const correctChoice = q.correct;
+      const reviewTitle = document.createElement("h3");
+      reviewTitle.className = "review-title";
+      reviewTitle.textContent = "Revisão das respostas";
 
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'review-item';
+      reviewContainer.appendChild(reviewTitle);
 
-        const title = document.createElement('div');
-        title.className = 'review-question-title';
-        title.innerHTML = `Pergunta ${qIdx + 1}: ${q.question}`;
-        itemDiv.appendChild(title);
+      currentQuestions.forEach((question, questionIndex) => {
+        const userChoice = userAnswers[questionIndex];
+        const correctChoice = question.correct;
 
-        const optsList = document.createElement('ul');
-        optsList.className = 'review-options-list';
+        const item = document.createElement("div");
+        item.className = "review-item";
 
-        q.options.forEach((opt, optIdx) => {
-          const li = document.createElement('li');
-          li.className = 'review-option';
+        const title = document.createElement("div");
+        title.className = "review-question-title";
 
-          let noteText = '';
+        title.textContent =
+          `Pergunta ${questionIndex + 1} — ` +
+          `${question.topic}: ${question.question}`;
 
-          if (optIdx === userChoice && userChoice === correctChoice) {
-            li.classList.add('correct');
-            noteText = ' (Sua resposta - Correta)';
-          } else if (optIdx === userChoice && userChoice !== correctChoice) {
-            li.classList.add('incorrect');
-            noteText = ' (Sua resposta)';
-          } else if (optIdx === correctChoice && userChoice !== correctChoice) {
-            li.classList.add('correct');
-            noteText = ' (Resposta correta)';
+        item.appendChild(title);
+
+        const options = document.createElement("ul");
+        options.className = "review-options-list";
+
+        question.options.forEach((option, optionIndex) => {
+          const li = document.createElement("li");
+          li.className = "review-option";
+
+          const label = document.createElement("strong");
+          label.textContent = `${labels[optionIndex]}) `;
+
+          li.appendChild(label);
+          li.appendChild(document.createTextNode(option));
+
+          if (
+            optionIndex === userChoice &&
+            userChoice === correctChoice
+          ) {
+            li.classList.add("correct");
+            li.appendChild(
+              document.createTextNode(" — Sua resposta, correta")
+            );
+          } else if (
+            optionIndex === userChoice &&
+            userChoice !== correctChoice
+          ) {
+            li.classList.add("incorrect");
+            li.appendChild(
+              document.createTextNode(" — Sua resposta")
+            );
           }
 
-          li.innerHTML = `<strong>${labels[optIdx]})</strong> ${opt}${noteText}`;
-          optsList.appendChild(li);
+          if (
+            optionIndex === correctChoice &&
+            userChoice !== correctChoice
+          ) {
+            li.classList.add("correct");
+            li.appendChild(
+              document.createTextNode(" — Resposta correta")
+            );
+          }
+
+          options.appendChild(li);
         });
 
-        itemDiv.appendChild(optsList);
-        reviewContainer.appendChild(itemDiv);
+        item.appendChild(options);
+
+        const explanation = document.createElement("p");
+        explanation.className = "review-explanation";
+
+        const explanationLabel = document.createElement("strong");
+        explanationLabel.textContent = "Por quê? ";
+
+        explanation.appendChild(explanationLabel);
+        explanation.appendChild(
+          document.createTextNode(question.explanation)
+        );
+
+        item.appendChild(explanation);
+
+        reviewContainer.appendChild(item);
       });
-
-      if (window.MathJax) {
-        MathJax.typesetPromise();
-      }
     }
 
-    restartBtn.addEventListener('click', initQuiz);
+    restartBtn.addEventListener("click", initQuiz);
 
-    const ttsBtn = document.getElementById('tts-btn');
-    let currentUtterances = [];
-    let ptVoice = null;
-
-    function loadVoices() {
-      if (!('speechSynthesis' in window)) return;
-      const voices = window.speechSynthesis.getVoices();
-      ptVoice = voices.find(v => v.lang === 'pt-BR') || 
-                voices.find(v => v.lang.startsWith('pt')) || 
-                null;
-    }
-
-    if ('speechSynthesis' in window) {
-      loadVoices();
-      window.speechSynthesis.onvoiceschanged = loadVoices;
-    }
-
-    function stopSpeech() {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
+    window.addEventListener("beforeunload", () => {
+      if (synth) {
+        synth.cancel();
       }
-      currentUtterances = [];
-      if (ttsBtn) {
-        ttsBtn.textContent = 'Ouvir Pergunta';
-        ttsBtn.classList.remove('speaking');
-      }
-    }
-
-    function formatTextForSpeech(text) {
-      if (!text) return '';
-      return text
-        .replace(/<[^>]*>/g, '')
-        .replace(/\(\$Na\^\+\$\)/g, '')
-        .replace(/\(\$K\^\+\$\)/g, '')
-        .replace(/\(\$Ca\^\{2\+\}\$\)/g, '')
-        .replace(/\(\$Cl\^-\$\)/g, '')
-        .replace(/\(\$H\^\+\$\)/g, '')
-        .replace(/\(\$HCO_3\^-\$\)/g, '')
-        .replace(/Na\^\+\/K\^\+\/2Cl\^-/g, 'Sódio, Potássio e Dois Cloretos')
-        .replace(/Na\^\+\/Cl\^-/g, 'Sódio e Cloreto')
-        .replace(/Na\^\+\/K\^-/g, 'Sódio e Potássio')
-        .replace(/Na\^\+/g, 'Sódio')
-        .replace(/K\^\+/g, 'Potássio')
-        .replace(/2Cl\^-/g, 'dois Cloretos')
-        .replace(/Cl\^-/g, 'Cloreto')
-        .replace(/H\^\+/g, 'Hidrogênio')
-        .replace(/HCO_3\^-/g, 'Bicarbonato')
-        .replace(/Ca\^\{2\+\}/g, 'Cálcio')
-        .replace(/\$/g, '')
-        .replace(/\s+/g, ' ')
-        .trim();
-    }
-
-    ttsBtn.addEventListener('click', () => {
-      if (!('speechSynthesis' in window)) {
-        alert("Seu navegador não suporta leitura por voz.");
-        return;
-      }
-
-      const synth = window.speechSynthesis;
-
-      if (synth.speaking || synth.pending || ttsBtn.classList.contains('speaking')) {
-        stopSpeech();
-        return;
-      }
-
-      synth.cancel();
-      synth.resume();
-
-      const chunks = [];
-
-      if (resultContainer.style.display !== 'none') {
-        chunks.push(`Quiz concluído. Sua pontuação foi ${score} de 5. ${scoreMessage.textContent}`);
-      } else {
-        const q = currentQuestions[currentQuestionIndex];
-        chunks.push(`Pergunta ${currentQuestionIndex + 1} de 5. ${formatTextForSpeech(q.question)}`);
-        
-        q.options.forEach((opt, idx) => {
-          chunks.push(`Opção ${labels[idx]}: ${formatTextForSpeech(opt)}`);
-        });
-      }
-
-      currentUtterances = [];
-
-      chunks.forEach((chunkText, index) => {
-        const utterance = new SpeechSynthesisUtterance(chunkText);
-        utterance.lang = 'pt-BR';
-        utterance.rate = 1.0;
-        if (ptVoice) utterance.voice = ptVoice;
-
-        if (index === 0) {
-          utterance.onstart = () => {
-            ttsBtn.textContent = 'Parar Leitura';
-            ttsBtn.classList.add('speaking');
-          };
-        }
-
-        if (index === chunks.length - 1) {
-          utterance.onend = () => {
-            stopSpeech();
-          };
-          utterance.onerror = () => {
-            stopSpeech();
-          };
-        }
-
-        currentUtterances.push(utterance);
-        synth.speak(utterance);
-      });
     });
 
-    window.addEventListener('beforeunload', stopSpeech);
-
+    // Iniciar a primeira rodada.
     initQuiz();
   </script>
 </body>
